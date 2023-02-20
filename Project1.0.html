@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>JSON To XML and XML to JSON Converter</h1>
+    <h4>JSON:</h4>
+    <textarea
+      id="JSON"
+      rows="5"
+      style="width: 45%; font-size: larger"
+    ></textarea>
+    <h4>XML:</h4>
+    <textarea
+      id="XML"
+      rows="5"
+      style="width: 45%; font-size: larger"
+    ></textarea>
+    <div>
+      <button onclick="XML2JSON()">Convert to JSON</button>
+      <button onclick="JSON2XML()">Convert to XML</button>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/x2js/1.2.0/xml2json.min.js"
+      integrity="sha512-HX+/SvM7094YZEKOCtG9EyjRYvK8dKlFhdYAnVCGNxMkA59BZNSZTZrqdDlLXp0O6/NjDb1uKnmutUeuzHb3iQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+      var x2js = new X2JS();
+      function XML2JSON() {
+        var xmlText = document.getElementById("XML").value;
+        var jsonObj = x2js.xml_str2json(xmlText);
+        document.getElementById("JSON").innerText = JSON.stringify(jsonObj);
+      }
+      function JSON2XML() {
+        var JSONText = document.getElementById("JSON").value;
+        var XMLObj = x2js.json2xml_str(JSON.parse(JSONText));
+        document.getElementById("XML").innerText = XMLObj;
+      }
+    </script>
+  </body>
+</html>
