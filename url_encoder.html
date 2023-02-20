@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ENCODER</title>
+  </head>
+  <html>
+    <body>
+      <h1>URL Encoder</h1>
+      <p>Enter a URL to encode:</p>
+      <form>
+        <input type="radio" id="encode" name="action" value="encode" checked />
+        <label for="encode">Encode</label>
+        <br />
+        <input type="text" id="url" name="url" size="50" />
+        <br />
+        <input type="submit" value="Submit" />
+      </form>
+
+      <p>Result:</p>
+      <p id="result"></p>
+
+      <script>
+        const form = document.querySelector('form');
+        const result = document.getElementById('result');
+        const urlInput = document.getElementById('url');
+
+        function urlEncoder(event) {
+          event.preventDefault();
+
+          const action = document.querySelector(
+            'input[name="action"]:checked'
+          ).value;
+
+          const url = urlInput.value;
+
+          let encodedUrl;
+
+          try {
+            const urlObject = new URL(url);
+            if (action === 'encode') {
+              encodedUrl = encodeURIComponent(url)
+                .replace(/!/g, '%21')
+                .replace(/\*/g, '%2A')
+                .replace(/'/g, '%27')
+                .replace(/\(/g, '%28')
+                .replace(/\)/g, '%29');
+
+              result.innerText = encodedUrl;
+            } else {
+              result.innerText = 'Invalid action';
+            }
+          } catch (error) {
+            result.innerText = 'Invalid URL';
+          }
+        }
+
+        form.addEventListener('submit', urlEncoder);
+      </script>
+    </body>
+  </html>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PARSER</title>
+  </head>
+  <body>
+    <h1>URL Parser</h1>
+
+    <form>
+      <label>Enter a URL to Parse:</label>
+      <input type="text" id="url-input" />
+      <button type="button" onclick="parseURL()">Parse URL</button>
+    </form>
+
+    <p><strong>Result:</strong></p>
+    <p id="error"></p>
+    <p id="protocol"></p>
+    <p id="hostname"></p>
+    <p id="pathname"></p>
+    <p id="search"></p>
+    <p id="hash"></p>
+
+    <script>
+      function parseURL() {
+        const urlInput = document.getElementById('url-input');
+        const urlOutput = document.getElementById('url-output');
+        const error = document.getElementById('error');
+        const protocol = document.getElementById('protocol');
+        const hostname = document.getElementById('hostname');
+        const pathname = document.getElementById('pathname');
+        const search = document.getElementById('search');
+        const hash = document.getElementById('hash');
+        const url = urlInput.value;
+
+        function isValidURL(url) {
+          try {
+            new URL(url);
+            return true;
+          } catch (error) {
+            return false;
+          }
+        }
+
+        try {
+          if (isValidURL(url)) {
+            const urlObj = new URL(url);
+            error.textContent = '';
+            if (urlObj.protocol)
+              protocol.textContent = `Protocol: ${urlObj.protocol}`;
+
+            if (urlObj.hostname)
+              hostname.textContent = `Hostname: ${urlObj.hostname}`;
+
+            if (urlObj.pathname)
+              pathname.textContent = `Pathname: ${urlObj.pathname}`;
+
+            if (urlObj.search) search.textContent = `Search: ${urlObj.search}`;
+
+            if (urlObj.hash) hash.textContent = `Hash: ${urlObj.hash}`;
+          } else if (!isValidURL(url)) {
+            error.textContent = `Error, Invalid URL`;
+            protocol.textContent = '';
+            hostname.textContent = '';
+            pathname.textContent = '';
+            search.textContent = '';
+            hash.textContent = '';
+          }
+        } catch (error) {
+          urlOutput.textContent = `Error: ${error.message}`;
+        }
+      }
+    </script>
+  </body>
+</html>

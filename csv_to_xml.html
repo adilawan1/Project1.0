@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSV to XML</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"
+      integrity="sha512-SGWgwwRA8xZgEoKiex3UubkSkV1zSE1BS6O4pXcaxcNtUlQsOmOmhVnDwIvqGRfEmuz83tIGL13cXMZn6upPyg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body>
+    <h1>CSV TO XML CONVERTER</h1>
+    <form>
+      <input type="text" id="url-input" />
+
+      <input type="text" id="text-input" />
+      <input type="file" id="file-input" name="filename" />
+      <br />
+      <br />
+      <button type="button" id="convert-btn">Convert</button>
+      <br />
+      <br />
+      <div
+        id="result"
+        style="
+          width: 300px;
+          height: 300px;
+          border: 1px solid black;
+          overflow: scroll;
+        "
+      ></div>
+      <p id="error-output" style="color: red"></p>
+      <button type="submit" id="download-btn">Download XML</button>
+    </form>
+    <script>
+      const fileInput = document.getElementById('file-input');
+      const urlInput = document.getElementById('url-input');
+      const textInput = document.getElementById('text-input');
+      const convertBtn = document.getElementById('convert-btn');
+      const resultDiv = document.getElementById('result');
+      const errorOutput = document.getElementById('error-output');
+      const downloadButton = document.getElementById('download-btn');
+      let xmlString;
+
+      function convertToXML(data) {
+        const config = {
+          header: true,
+          delimiter: ',',
+          skipEmptyLines: true,
+        };
+
+        const parsed = Papa.parse(data, config);
+
+        const xml = document.createElement('root');
+
+        parsed.data.forEach(function (row) {
+          const item = document.createElement('item');
+          xml.appendChild(item);
+
+          Object.keys(row).forEach((key) => {
+            let value = row[key];
+            key = key.replace(/\s+/g, '');
+
+            if (isValidXmlName(key)) {
+              const child = document.createElement(key);
+              child.textContent = value;
+              item.appendChild(child);
+            }
+          });
+        });
+
+        const serializer = new XMLSerializer();
+        xmlString = serializer.serializeToString(xml);
+
+        resultDiv.innerText = xmlString;
+
+        converted = true;
+
+        return xmlString;
+      }
+
+      function handleFileInput(event) {
+        const file = event.target.files[0];
+
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = function () {
+          const xmlString = convertToXML(reader.result);
+        };
+      }
+
+      function handleUrlInput() {
+        const url = urlInput.value;
+        console.log(url);
+        fetch(url)
+          .then((response) => response.text())
+          .then((data) => convertToXML(data))
+          .catch((error) => (errorOutput.textContent = error));
+      }
+
+      function downloadXMLFile() {
+        if (xmlString != null) {
+          console.log('Downloading');
+          let filename = 'output.xml';
+
+          var link = document.createElement('a');
+
+          link.setAttribute(
+            'href',
+            'data:text/plain;charset=utf-8,' + encodeURIComponent(xmlString)
+          );
+
+          link.setAttribute('download', filename);
+
+          link.click();
+
+          URL.revokeObjectURL(
+            'data:text/plain;charset=utf-8,' + encodeURIComponent(xmlString)
+          );
+        }
+      }
+
+      fileInput.addEventListener('change', handleFileInput);
+      convertBtn.addEventListener('click', handleUrlInput);
+      downloadButton.addEventListener('click', downloadXMLFile);
+
+      function isValidXmlName(name) {
+        let regex = /^[a-zA-Z_][a-zA-Z0-9_-]*$/;
+        return regex.test(name);
+      }
+    </script>
+  </body>
+</html>

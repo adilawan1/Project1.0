@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DECODER</title>
+</head>
+<html>
+<body>
+	<h1>URL Decoder</h1>
+	<p>Enter a URL to decode:</p>
+	<form>
+		<input type="radio" id="decode" name="action" value="decode" checked>
+		<label for="decode">Decode</label>
+		<br>
+		<input type="text" id="url" name="url" size="50">
+		<br>
+		<input type="submit" value="Submit">
+	</form>
+
+	<p>Result:</p>
+	<p id="result"></p>
+
+	<script>
+		const form = document.querySelector('form');
+		const result = document.querySelector('#result');
+
+		function urlDecoder(event){
+
+			event.preventDefault();
+
+			const url = document.querySelector('#url').value;
+
+			let decodedUrl;
+				try {
+					decodedUrl = decodeURIComponent(url);
+					result.innerText = decodedUrl;
+				} catch (error) {
+					result.innerText = 'Invalid URL';
+				}
+
+		}
+
+
+		form.addEventListener('submit', urlDecoder);
+	</script>
+</body>
+</html>
+
+</body>
+</html>
