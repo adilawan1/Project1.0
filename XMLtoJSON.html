@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <h1>JSON To XML and XML to JSON Converter</h1>
+    <h1>XML to JSON Converter</h1>
     <h4>JSON:</h4>
     <textarea
       id="JSON"
@@ -15,9 +15,15 @@
       style="width: 45%; font-size: larger"
     ></textarea>
     <div>
-      <button onclick="XML2JSON()">Convert to JSON</button>
-      <button onclick="JSON2XML()">Convert to XML</button>
+      <button onclick="fileHandling()">Upload a File</button>
+      <button onclick="XML2JS()">Convert to JSON</button>
     </div>
+    <div><input id="url" placeholder="URL"></input></div>
+    <button onclick='fetch(document.getElementById("url").value)
+    .then(res => res.text())
+    .then(text => document.getElementById("XML").innerHTML =text)'>URL</button>
+    <button onclick="location.reload()">RESET</button>
+    <!-- XML TO JSON Function -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/x2js/1.2.0/xml2json.min.js"
       integrity="sha512-HX+/SvM7094YZEKOCtG9EyjRYvK8dKlFhdYAnVCGNxMkA59BZNSZTZrqdDlLXp0O6/NjDb1uKnmutUeuzHb3iQ=="
@@ -25,16 +31,36 @@
       referrerpolicy="no-referrer"
     ></script>
     <script>
-      var x2js = new X2JS();
-      function XML2JSON() {
-        var xmlText = document.getElementById("XML").value;
-        var jsonObj = x2js.xml_str2json(xmlText);
-        document.getElementById("JSON").innerText = JSON.stringify(jsonObj);
+      function fileHandling() {
+        var input = document.createElement("input");
+        input.type = "file";
+        input.onchange = (e) => {
+          // getting a hold of the file reference
+          var file = e.target.files[0];
+
+          // setting up the reader
+          var reader = new FileReader();
+          reader.readAsText(file, "UTF-8"); // this is reading as data url
+
+          // here we tell the reader what to do when it's done reading...
+          reader.onload = (readerEvent) => {
+            var content = readerEvent.target.result; // this is the content!
+            document.querySelector("#XML").innerText = content;
+          };
+        };
+        input.click();
       }
-      function JSON2XML() {
-        var JSONText = document.getElementById("JSON").value;
-        var XMLObj = x2js.json2xml_str(JSON.parse(JSONText));
-        document.getElementById("XML").innerText = XMLObj;
+
+      var x2js = new X2JS();
+      function XML2JS() {
+        var xmlText = document.getElementById("XML").value;
+        xmlText = xmlText.replace("&", "&amp;");
+        var jsonObj = x2js.xml_str2json(xmlText);
+        document.getElementById("JSON").innerHTML = JSON.stringify(
+          jsonObj,
+          null,
+          2
+        );
       }
     </script>
   </body>
