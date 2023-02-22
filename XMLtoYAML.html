@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <title>XML to YAML</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fast-xml-parser/4.1.2/fxparser.min.js" integrity="sha512-iXGw9+hLdQ/UOeb3jmfh+Rcp8MAaH+vRUwUBI9QXZytEDNWpO3ud4xfja86dBDKxmLIRVNxXwEPiN1dRolgYfg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
   <body>
-    <h1>XML to JSON Converter</h1>
-    <h4>JSON:</h4>
+    <h1>XML to YAML Converter</h1>
+    <h4>YAML:</h4>
     <textarea
-      id="JSON"
+      id="YAML"
       rows="5"
       style="width: 45%; font-size: larger"
     ></textarea>
@@ -19,14 +22,14 @@
     ></textarea>
     <div>
       <button onclick="fileHandling()">Upload a File</button>
-      <button onclick="XML2JS()">Convert to JSON</button>
+      <button onclick="XML2JS()">Convert to YAML</button>
     </div>
     <div><input id="url" placeholder="URL"></input></div>
     <button onclick='fetch(document.getElementById("url").value)
     .then(res => res.text())
     .then(text => document.getElementById("XML").innerHTML =text)'>URL</button>
     <button onclick="location.reload()">RESET</button>
-    <!-- XML TO JSON Function -->
+    <!-- XML TO YAML Function -->
     <script>
       function fileHandling() {
         var input = document.createElement("input");
@@ -47,16 +50,11 @@
         };
         input.click();
       }
-
       const parser = new XMLParser();
       function XML2JS() {
         var xmlString = document.getElementById("XML").value;
-        var jsonObj =parser.parse(xmlString)
-        document.getElementById("JSON").innerHTML = JSON.stringify(
-          jsonObj,
-          null,
-          2
-        );
+        var Obj =parser.parse(xmlString)
+        document.getElementById("YAML").innerHTML =jsyaml.dump(Obj)
       }
     </script>
   </body>

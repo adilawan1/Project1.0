@@ -52,7 +52,7 @@
 
         // Convert JSON to XML
         const parser = new DOMParser();
-        const xmlString = `<?xml version="1.0" encoding="utf-8"?>\n${jsonToXml(
+        const xmlString = `${jsonToXml(
           jsonObj
         )}`;
         //const xml = parser.parseFromString(xmlString, "text/xml");
@@ -63,16 +63,19 @@
           for (let key in json) {
             if (Array.isArray(json[key])) {
               json[key].forEach(function (item) {
-                xml += "<" + key + ">\n";
+                xml += "\n<" + key + ">";
                 xml += jsonToXml(item);
-                xml += "</" + key + ">\n";
+                xml += "</" + key + ">";
               });
             } else if (typeof json[key] === "object") {
-              xml += "<" + key + ">\n";
+              xml += "\n<" + key + ">";
               xml += jsonToXml(json[key]);
-              xml += "</" + key + ">\n";
+              xml += "</" + key + ">";
             } else {
-              xml += "<" + key + ">" + json[key] + "</" + key + ">";
+              if(Object.keys(json[key]).length===1 && JSON.stringify(json)!==JSON.stringify(json[key]))
+              xml +=json[key];
+              else
+              xml += "\n<" + key + ">" + json[key] + "</" + key + ">";
             }
           }
           return xml;
