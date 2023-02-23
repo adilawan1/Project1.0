@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TSV to XML</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        margin: 4px;
+        background-color: #f1f1f1;
+      }
+      .editor-container {
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        flex-wrap: wrap;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+        padding: 32px;
+        box-sizing: border-box;
+      }
+      .editor {
+        width: 100%;
+        height: 300px;
+        border: none;
+        padding: 10px;
+        box-sizing: border-box;
+        font-size: 16px;
+        line-height: 1.5;
+        background-color: #f9f9f9;
+        color: #555;
+        overflow-y: scroll;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        margin-right: 20px;
+      }
+      .editor:focus {
+        outline: none;
+      }
+      .editor::-webkit-scrollbar {
+        width: 6px;
+        background-color: #e3dfdf;
+      }
+      .editor::-webkit-scrollbar-thumb {
+        background-color: #a0a0a1;
+      }
+      .editor p {
+        margin: 0 0 10px 0;
+      }
+      #actions {
+        margin-top: 20px;
+      }
+      #actions button {
+        display: inline-block;
+        padding: 8px 15px;
+        margin: 0 5px;
+        border: none;
+        border-radius: 3px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      #actions button:hover {
+        background-color: #0056b3;
+      }
+      #convert-btn {
+        position: absolute;
+        right: 50%;
+        top: 100%;
+        margin-top: 10px;
+        padding: 8px;
+        border: none;
+        border-radius: 3px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      #URL-btn {
+        margin: 10px;
+        padding: 8px;
+        border: none;
+        border-radius: 3px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      #copy-btn {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        padding: 8px;
+        border: none;
+        border-radius: 3px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      #copy-btn:hover {
+        background-color: #0056b3;
+      }
+      #download-btn {
+        position: absolute;
+        top: 100%;
+        margin-top: 10px;
+        right: 0px;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 3px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      #copied-msg {
+        display: none;
+        position: absolute;
+        top: -50px;
+        right: 0px;
+        padding: 10px;
+        background-color: #b6babe;
+        color: black;
+        border-radius: 5px;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+      }
+      @media (min-width: 768px) {
+        .editor {
+          width: calc(50% - 20px);
+          margin-right: 20px;
+          margin-bottom: 0;
+        }
+        #copy-btn {
+          top: 0px;
+        }
+      }
+      @media (min-width: 1200px) {
+        .editor {
+          height: 500px;
+        }
+      }
+
+      #url {
+        padding: 10px;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="editor-container">
+        <textarea
+          class="editor"
+          id="editor1"
+          contenteditable="true"
+          placeholder="TSV Data"
+        ></textarea>
+        <textarea
+          class="editor"
+          id="editor2"
+          contenteditable="true"
+          placeholder="XML Data"
+        ></textarea>
+        <input type="text" id="url" placeholder="Enter URL" />
+        <button
+          id="URL-btn"
+          onclick="fetch(document.getElementById('url').value)
+          .then(res => res.text())
+          .then(text => document.getElementById('editor1').innerHTML =text)"
+        >
+          Get Data
+        </button>
+        <button id="URL-btn" onclick="fileHandling()">Upload a File</button>
+        <button id="copy-btn" onclick="copy()">Copy</button>
+        <button id="convert-btn" onclick="Convert()">Convert</button>
+        <button id="download-btn" onclick="download()">Download</button>
+        <div id="copied-msg">Copied to clipboard!</div>
+      </div>
+    </div>
+    <script>
+      const copyBtn = document.querySelector("#copy-btn");
+      const rightEditor = document.querySelector("#editor2");
+      const copiedMsg = document.querySelector("#copied-msg");
+
+      function fileHandling() {
+        var input = document.createElement("input");
+        input.type = "file";
+        input.onchange = (e) => {
+          // getting a hold of the file reference
+          var file = e.target.files[0];
+
+          // setting up the reader
+          var reader = new FileReader();
+          reader.readAsText(file, "UTF-8"); // this is reading as data url
+
+          // here we tell the reader what to do when it's done reading...
+          reader.onload = (readerEvent) => {
+            var content = readerEvent.target.result; // this is the content!
+            console.log(content);
+            document.querySelector("#editor1").innerHTML = content;
+          };
+        };
+        input.click();
+      }
+
+      function Convert() {
+        var editor1Content = document.getElementById("editor1").value;
+        var arr = editor1Content.split("\n");
+        var titles = arr[0].split("\t");
+        var text = `<?xml version="1.0" encoding="utf-8"?>\n<root>\n`;
+        arr.shift();
+        for (key in arr) {
+          text += `<row>\n`;
+          for (vals in arr[key].split("\t")) {
+            text += `<${titles[vals]}>${arr[key].split("\t")[vals]}</${
+              titles[vals]
+            }>\n`;
+          }
+          text += `</row>\n`;
+        }
+        text += `</root>`;
+        document.getElementById("editor2").innerHTML = text;
+      }
+
+      function copy() {
+        var editor2Content = document.getElementById("editor1").textContent;
+        var textarea = document.createElement("textarea");
+        textarea.value = editor2Content;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
+
+      copyBtn.addEventListener("click", () => {
+        console.log("Copy");
+        const text = rightEditor.textContent;
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            copiedMsg.style.display = "block";
+            setTimeout(() => {
+              copiedMsg.style.display = "none";
+            }, 2000);
+          })
+          .catch((err) => {
+            console.error("Failed to copy text: ", err);
+          });
+      });
+    </script>
+  </body>
+</html>
