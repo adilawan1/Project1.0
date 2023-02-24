@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Convert Input to Lowercase</title>
+    <link rel="stylesheet" href = "style.css">
+  </head>
+  <body>
+    <h1>Convert Input to Lowercase</h1>
+    <form>
+      <label for="textInput">Enter text:</label>
+      <input type="text" id="textInput" name="textInput">
+      <br><br>
+      <button type="submit" id="submitButton">Submit</button>
+    </form>
+    <textarea id="output"></textarea>
+    <script>
+      // Get the form and output elements
+      const form = document.querySelector("form");
+      const output = document.querySelector("#output");
+
+      // Handle form submission
+      form.addEventListener("submit", function(event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+
+        // Get the user input
+        const userInput = document.querySelector("#textInput").value;
+
+        // Convert the input to lowercase
+        const lowercaseInput = userInput.toLowerCase();
+
+        // Display the result
+        output.textContent = `Lowercase input: ${lowercaseInput}`;
+      });
+    </script>
+  </body>
+</html>

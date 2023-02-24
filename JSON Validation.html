@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSON Validation</title>
+    <link rel="stylesheet" href = "style.css">
+
+  </head>
+  <body>
+    <h1>JSON Validation</h1>
+    <form id="json-form">
+      <label for="json-input">JSON-Input</label>
+      <input type="text" id="json-input" name="jsonInput" /><br />
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <textarea id="json-output"></textarea>
+
+    <script>
+      const jsonForm = document.getElementById("json-form");
+      const jsonInput = document.getElementById("json-input");
+      const jsonOutput = document.getElementById("json-output");
+
+      jsonForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const jsonString = jsonInput.value;
+
+        try {
+          const jsonObject = JSON.parse(jsonString);
+          const prettyJson = JSON.stringify(jsonObject, null, 2);
+          console.log("Valid JSON:", jsonObject);
+          jsonOutput.textContent = `Valid JSON: \n ${prettyJson}`;
+        } catch (error) {
+          jsonOutput.textContent = "Invalid JSON";
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Minifier</title>
+  <link rel="stylesheet" href = "style.css">
+</head>
+<body>
+  <h1>HTML Minify</h1>
+  <p>Enter HTML to minify:</p>
+  <form>
+    <textarea id="html-input" name="html-input"></textarea>
+    <button type="button" id="minify-btn">Minify HTML</button>
+  </form>
+  <div>
+<textarea id="minified-result"></textarea>
+  </div>
+  <script>
+    const minifyBtn = document.getElementById('minify-btn');
+    const minifiedResultEl = document.getElementById('minified-result');
+
+    minifyBtn.addEventListener('click', function() {
+      const htmlInput = document.getElementById('html-input').value;
+      
+      // Check if the input is valid HTML
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlInput, 'text/html');
+      if ( doc.body.innerHTML.indexOf('</') ===  -1) {
+        minifiedResultEl.textContent = 'Invalid HTML';
+        return;
+      }
+
+      const minifiedHtml = minifyHtml(htmlInput);
+      minifiedResultEl.textContent = minifiedHtml;
+      console.log(minifiedHtml);
+
+    });
+
+    function minifyHtml(html) {
+  // Remove new lines, tabs, and excess white space
+  let minifiedHtml = html.replace(/^[ \t]*[\r\n]+|[ \t]*[\r\n]+/gm, '').replace(/\s+/g, ' ').trim();
+  
+  // Remove extra spaces in >< in between HTML tags
+  minifiedHtml = minifiedHtml.replace(/>\s+</g, '><');
+  
+  return minifiedHtml;  // add this line
+}
+
+  </script>
+</body>
+</html>
