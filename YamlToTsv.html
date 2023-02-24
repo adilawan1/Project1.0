@@ -1,0 +1,127 @@
+
+<div>
+  <h1>YAML to TSV Converter</h1>
+
+  <h2>File Upload</h2>
+  <input type="file" id="file-input" accept='.yaml'>
+  <button id="file-convert">Convert</button>
+  <br><br>
+
+  <h2>Input</h2>
+  <textarea id="input"></textarea>
+  <button id="input-convert">Convert</button>
+  <br><br>
+
+  <h2>URL</h2>
+  <input type="url" id="url-input">
+  <button id="url-convert">Convert</button>
+  <br><br>
+
+  <h2>Output</h2>
+  <textarea id="output"></textarea>
+  <button type="submit" id="download-btn">Download TSV</button>
+
+  <script>
+    const downloadButton = document.getElementById('download-btn');
+    let tsvString;
+
+function yamlToTsv(yamlStr) {
+  const lines = yamlStr.split('\n').filter(line => line.trim() !== ''); // remove empty lines
+  let headers = [];
+  let data = [];
+
+  for (const line of lines) {
+    const parts = line.split(':').map(part => part.trim());
+    if (parts.length === 1) {
+      // this is a header line
+      headers.push(parts[0]);
+    } else if (parts.length === 2) {
+      // this is a data line
+      let headerIndex = headers.indexOf(parts[0]);
+      if (headerIndex === -1) {
+        // this is a new header
+        headers.push(parts[0]);
+        data.forEach(row => row.push(''));
+        headerIndex = headers.length - 1;
+      }
+      data.push([]);
+      data[data.length - 1][headerIndex] = parts[1];
+    }
+  }
+
+  const tsvLines = [headers.join('\t')];
+  for (const row of data) {
+    tsvLines.push(row.join('\t'));
+  }
+  console.log(tsvLines.join('\n'))
+  return tsvLines.join('\n');
+}
+
+
+
+// File upload
+const fileInput = document.getElementById('file-input');
+const fileConvertButton = document.getElementById('file-convert');
+fileConvertButton.addEventListener('click', () => {
+  const file = fileInput.files[0];
+  const reader = new FileReader();
+  reader.onload = () => {
+    const yaml = reader.result;
+    tsvString = yamlToTsv(yaml);
+    const output = document.getElementById('output');
+    output.value = tsvString;
+  };
+  reader.readAsText(file);
+});
+
+// Input
+const input = document.getElementById('input');
+const inputConvertButton = document.getElementById('input-convert');
+inputConvertButton.addEventListener('click', () => {
+  const yaml = input.value;
+  tsvString = yamlToTsv(yaml);
+  const output = document.getElementById('output');
+  output.value = tsvString;
+});
+
+// URL
+const urlInput = document.getElementById('url-input');
+const urlConvertButton = document.getElementById('url-convert');
+urlConvertButton.addEventListener('click', () => {
+  const url = urlInput.value;
+  fetch(url)
+    .then(response => response.text())
+    .then(yaml => {
+      tsvString = yamlToTsv(yaml);
+      const output = document.getElementById('output');
+      output.value = tsvString;
+    })
+    .catch(error => {
+      console.error(error);
+    });
+});
+
+downloadButton.addEventListener('click', () => {
+        if (tsvString != null) {
+          let filename = 'output.tsv';
+
+          var link = document.createElement('a');
+
+          link.setAttribute(
+            'href',
+            'data:csv/plain;charset=utf-8,' + encodeURIComponent(tsvString)
+          );
+
+          link.setAttribute('download', filename);
+
+          link.click();
+        }
+      })
+
+  </script>
+</div>
+
+
+
+
+

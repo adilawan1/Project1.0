@@ -1,0 +1,42 @@
+<div>
+  <h1>Convert H:M:S to seconds format</h1>
+  <p>Enter value in seconds</p>
+  <label>Hours</label>
+  <input type="text" id="hours" />
+  <label>Minutes</label>
+  <input type="text" id="minutes" />
+  <label>Seconds</label>
+  <input type="text" id="seconds" />
+
+  <p>Result</p>
+
+  <div
+    id="result"
+    style="
+      width: 300px;
+      height: 300px;
+      border: 1px solid black;
+      overflow: scroll;
+    "
+  ></div>
+
+  <button type="submit" id="submit-btn">Convert</button>
+  <script>
+    const hoursElement = document.getElementById('hours');
+    const minutesElement = document.getElementById('minutes');
+    const secondsElement = document.getElementById('seconds');
+    const result = document.getElementById('result');
+    const convertBtn = document.getElementById('submit-btn');
+
+    function toSeconds() {
+      let hours = hoursElement.value;
+      let minutes = minutesElement.value;
+      let seconds = secondsElement.value;
+      let totalSeconds =
+        parseInt(hours * 60 * 60) + parseInt(minutes * 60) + parseInt(seconds);
+      result.textContent = totalSeconds;
+    }
+
+    convertBtn.addEventListener('click', toSeconds);
+  </script>
+</div>

@@ -1,0 +1,108 @@
+<div>
+  <h1>CSV to JSON Converter</h1>
+
+  <h2>File Upload</h2>
+  <input type="file" id="file-input" accept=".csv" />
+  <button id="file-convert">Convert</button>
+  <br /><br />
+
+  <h2>URL</h2>
+  <input type="url" id="url-input" />
+  <button id="url-convert">Convert</button>
+  <br /><br />
+
+  <h2>Input</h2>
+  <textarea id="input"></textarea>
+  <button id="input-convert">Convert</button>
+  <br /><br />
+
+  <h2>Output</h2>
+  <textarea id="output"></textarea>
+  <button type="submit" id="download-btn">Download JSON</button>
+
+  <script>
+    const downloadButton = document.getElementById('download-btn');
+    let json;
+
+    function csvToJson(csv) {
+      const lines = csv.trim().split('\n');
+      const headers = lines
+        .shift()
+        .split(',')
+        .map((header) => header.trim().replace(/"/g, ''));
+      return lines.map((line) => {
+        const values = line
+          .split(',')
+          .map((value) => value.trim().replace(/"/g, ''));
+        return headers.reduce((object, header, index) => {
+          object[header] = values[index];
+          return object;
+        }, {});
+      });
+    }
+
+    // File upload
+    const fileInput = document.getElementById('file-input');
+    const fileConvertButton = document.getElementById('file-convert');
+    fileConvertButton.addEventListener('click', () => {
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        try {
+          console.log(event.target.result);
+          // wrap single object in an array
+          json = csvToJson(event.target.result);
+          output.value = JSON.stringify(json);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      reader.readAsText(file);
+    });
+
+    // Input
+    const input = document.getElementById('input');
+    const inputConvertButton = document.getElementById('input-convert');
+    inputConvertButton.addEventListener('click', () => {
+      const input = input.value;
+      json = csvToJson(input);
+      const output = document.getElementById('output');
+      output.value = json;
+    });
+
+    // URL
+    const urlInput = document.getElementById('url-input');
+    const urlConvertButton = document.getElementById('url-convert');
+    urlConvertButton.addEventListener('click', () => {
+      const url = urlInput.value;
+      fetch(url)
+        .then((response) => response.text())
+        .then((input) => {
+          json = csvToJson(input);
+          const output = csv.getElementById('output');
+          output.value = json;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
+
+    downloadButton.addEventListener('click', () => {
+      let filename = 'output.json';
+
+      var link = document.createElement('a');
+
+      link.setAttribute(
+        'href',
+        'data:csv/plain;charset=utf-8,' +
+          encodeURIComponent(JSON.stringify(json))
+      );
+
+      link.setAttribute('download', filename);
+
+      link.click();
+    });
+  </script>
+</div>
