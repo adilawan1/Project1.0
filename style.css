@@ -1,0 +1,40 @@
+body {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+h1 {
+  text-align: center;
+}
+
+textarea {
+  width: 80%;
+  height: 400px;
+  margin: 20px;
+  padding: 10px;
+  border: 2px solid #141313;
+  border-radius: 5px;
+  resize: none;
+}
+
+label {
+  display: block;
+  margin-top: 20px;
+}
+input {
+  border: 2px solid #141313;
+}
+button {
+  display: inline-block;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.button:hover {
+  background-color: #3e8e41;
+}
