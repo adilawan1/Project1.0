@@ -1,0 +1,60 @@
+
+  <div>
+    <h1>URL Parser</h1>
+
+    <form>
+      <label>Enter a URL to Parse:</label>
+      <input type="text" id="url-input" />
+      <button type="button" onclick="parseURL()">Parse URL</button>
+    </form>
+
+    <p><strong>Result:</strong></p>
+    <p><span id="error"></span></p>
+    <p><span id="protocol"></span></p>
+    <p><span id="hostname"></span></p>
+    <p><span id="pathname"></span></p>
+    <p><span id="search"></span></p>
+    <p><span id="hash"></span></p>
+    <script>
+      function parseURL() {
+        const urlInput = document.getElementById("url-input");
+        const urlOutput = document.getElementById("url-output");
+        const url = urlInput.value;
+
+        function isValidURL(url) { //checks if the url is valid or not return true if url valid 
+          try {
+            new URL(url);
+            return true;
+          } catch (error) {
+            return false;
+          }
+        }
+
+        try {
+          if (isValidURL(url)) { //if url valid then parse it 
+            const urlObj = new URL(url);
+            document.getElementById("error").textContent = ``;
+
+            document.getElementById(
+              "protocol"
+            ).textContent = `Protocol: ${urlObj.protocol}`;
+            document.getElementById(
+              "hostname"
+            ).textContent = `Hostname: ${urlObj.hostname}`;
+            document.getElementById(
+              "pathname"
+            ).textContent = `Pathname: ${urlObj.pathname}`;
+            document.getElementById(
+              "search"
+            ).textContent = `Search: ${urlObj.search}`;
+            document.getElementById("hash").textContent = `Hash: ${urlObj.hash}`;
+
+          } else if(!isValidURL(url)){ //throws error if url is invalid 
+            document.getElementById("error").textContent = `Error, Invalid URL`;
+          }
+        } catch (error) {
+          urlOutput.textContent = `Error: ${error.message}`;
+        }
+      }
+    </script>
+  </div>

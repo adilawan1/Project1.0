@@ -1,0 +1,43 @@
+
+<div>
+  <h1>JSON Minify</h1>
+  <p>Enter JSON to minify:</p>
+  <form>
+    <textarea id="js-input" name="js-input"></textarea>
+    <button type="button" id="minify-btn">Minify JSON</button>
+  </form>
+  <div>
+    <textarea id="minified-result"></textarea>
+  </div>
+  <script>
+    const minifyBtn = document.getElementById('minify-btn');
+    const minifiedResultEl = document.getElementById('minified-result');
+
+    // Disable the minify button until the user enters some input
+    document.getElementById('js-input').addEventListener('input', function() {
+      minifyBtn.disabled = (this.value.trim() === '');
+    });
+
+    minifyBtn.addEventListener('click', function() {
+      const jsInput = document.getElementById('js-input').value.trim();
+
+      try {
+        // Attempt to parse the user input as JSON
+        const jsObj = JSON.parse(jsInput);
+
+        // Minify the JSON object using JSON.stringify()
+        const minifiedJS = JSON.stringify(jsObj);
+
+        // Display the minified JSON in the output element
+        minifiedResultEl.textContent = minifiedJS;
+
+        // Clear the input textarea and disable the minify button
+        document.getElementById('js-input').value = '';
+        minifyBtn.disabled = true;
+      } catch (error) {
+        // If the user input is not valid JSON, display an error message
+        alert("Invalid JSON input: " + error.message);
+      }
+    });
+  </script>
+</div>

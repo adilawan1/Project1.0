@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>JSON to YAML</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
-    <link rel="stylesheet" href="style.css">
-    </head>
-  <body>
+
+  <div>
     <h1>JSON to YAML Converter</h1>
     <h4>YAML:</h4>
     <textarea
@@ -30,6 +23,7 @@
     .then(text => document.getElementById("JSON").innerHTML =text)'>URL</button>
     <button onclick="location.reload()">RESET</button>
     <!-- XML TO YAML Function -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
     <script>
       function fileHandling() {
         var input = document.createElement("input");
@@ -56,5 +50,4 @@
         document.getElementById("YAML").innerHTML =jsyaml.dump(Obj)
       }
     </script>
-  </body>
-</html>
+  </div>

@@ -1,0 +1,35 @@
+
+<div>
+  <h1>HTML Decoder</h1>
+  <label for="input">Input:</label><br>
+  <textarea id="input" rows="10" cols="50"></textarea><br>
+  <button onclick="decode()">Decode</button>
+  <button onclick="clearFields()">Clear</button><br>
+  <label for="output">Output:</label><br>
+  <textarea id="output" rows="10" cols="50"></textarea><br>
+  <script>
+    function htmlDecode(input) {
+      var doc = new DOMParser().parseFromString(input, "text/html");
+      return doc.documentElement.textContent;
+    }
+
+    function decode() {
+      try {
+        var input = document.getElementById("input").value;
+        var output = htmlDecode(input);
+        if (output === input) {
+          document.getElementById("output").value = "No decoding necessary.";
+        } else {
+          document.getElementById("output").value = output;
+        }
+      } catch (error) {
+        document.getElementById("output").value = "Invalid HTML.";
+      }
+    }
+
+    function clearFields() {
+      document.getElementById("input").value = "";
+      document.getElementById("output").value = "";
+    }
+  </script>
+</div>

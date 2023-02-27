@@ -1,0 +1,48 @@
+
+<div>
+	<h1>URL Encoder</h1>
+	<p>Enter a URL to encode:</p>
+	<form>
+		<input type="radio" id="encode" name="action" value="encode" checked>
+		<label for="encode">Encode</label>
+		<br>
+		<input type="text" id="url" name="url">
+		<br>
+		<button type="submit" value="Submit">Submit</button>
+	</form>
+
+	
+	<textarea id="result"></textarea>
+
+	<script>
+		const form = document.querySelector('form'); //checks whether the form exist or not
+		const result = document.querySelector('#result'); //used to display the encoded url 
+
+		form.addEventListener('submit', (event) => { //check if the user clicks the submit button or not
+			event.preventDefault();
+
+			const action = document.querySelector('input[name="action"]:checked').value; 
+			const urlInput = document.querySelector('#url');
+			const url = urlInput.value;
+
+			let encodedUrl;
+
+			try {
+				const urlObject = new URL(url);
+				if (action === 'encode') {
+					encodedUrl = encodeURIComponent(url)
+						.replace(/!/g, '%21') // ! == %21
+						.replace(/\*/g, '%2A') // * == %2A
+						.replace(/'/g, '%27') // ' == %27
+						.replace(/\(/g, '%28') // ( == %28
+						.replace(/\)/g, '%29'); // ) == %29
+					result.innerText = encodedUrl;
+				} else {
+					result.innerText = 'Invalid action';
+				}
+			} catch (error) {
+				result.innerText = 'Invalid URL';
+			}
+		});
+	</script>
+</div>

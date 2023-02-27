@@ -1,0 +1,52 @@
+
+  <div>
+    <h1>JavaScript Minifier</h1>
+    <p>Enter JavaScript to minify:</p>
+    <form>
+      <textarea id="js-input" name="js-input"></textarea>
+      <button type="button" id="minify-btn">Minify JavaScript</button>
+    </form>
+    <div>
+      <textarea id="minified-result"></textarea>
+    </div>
+    <script>
+      const minifyBtn = document.getElementById('minify-btn');
+      const minifiedResultEl = document.getElementById('minified-result');
+
+      // Disable the minify button until the user enters some input
+      document.getElementById('js-input').addEventListener('input', function() {
+        minifyBtn.disabled = (this.value.trim() === '');
+      });
+
+      minifyBtn.addEventListener('click', function() {
+        const jsInput = document.getElementById('js-input').value.trim();
+
+        try {
+          // Use the built-in `Function` constructor to parse and minify the JavaScript
+          let minifiedJS = new Function(jsInput).toString();
+
+          // Remove comments and extra whitespace
+          minifiedJS = minifiedJS.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '')
+                                 .replace(/\s+/g, ' ')
+                                 .replace(/\{\s+/g, '{')
+                                 .replace(/\s+\}/g, '}')
+                                 .replace(/\[\s+/g, '[')
+                                 .replace(/\s+\]/g, ']')
+                                 .replace(/\(\s+/g, '(')
+                                 .replace(/\s+\)/g, ')')
+                                 .replace(/\;\s+/g, ';')
+                                 .replace(/\,\s+/g, ',');
+
+          // Display the minified JavaScript in the output element
+          minifiedResultEl.textContent = minifiedJS;
+
+          // Clear the input textarea and disable the minify button
+          document.getElementById('js-input').value = '';
+          minifyBtn.disabled = true;
+        } catch (error) {
+          // If the user input is not valid JavaScript, display an error message
+          alert("Invalid JavaScript input: " + error.message);
+        }
+      });
+    </script>
+  </div>

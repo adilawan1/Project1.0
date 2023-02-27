@@ -1,0 +1,36 @@
+
+<div>
+	<h1>URL Decoder</h1>
+	<p>Enter a URL to decode:</p>
+	<form>
+		<input type="radio" id="decode" name="action" value="decode" checked>
+		<label for="decode">Decode</label>
+		<br>
+		<input type="text" id="url" name="url">
+		<br>
+		<button type="submit"  value="Submit">Submit</button>
+	</form>
+
+	<textarea id="result"></textarea>
+
+	<script>
+		const form = document.querySelector('form');
+		const result = document.querySelector('#result');
+
+		form.addEventListener('submit', (event) => {
+			event.preventDefault();
+
+			const action = document.querySelector('input[name="action"]:checked').value;
+			const url = document.querySelector('#url').value;
+
+			let decodedUrl;
+				try {
+					decodedUrl = decodeURIComponent(url);
+					result.innerText = decodedUrl;
+				} catch (error) {
+					result.innerText = 'Invalid URL';
+				}
+			}
+		);
+	</script>
+</div>

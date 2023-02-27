@@ -1,0 +1,32 @@
+
+  <div>
+    <h1>JavaScript Validation</h1>
+    <form id="js-validation-form">
+      <label for="js-input">JavaScript Input</label>
+      <textarea id="js-input" name="jsInput" rows="5"></textarea><br />
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <textarea id="js-output"></textarea>
+
+    <script>
+      const jsValidationForm = document.getElementById("js-validation-form");
+      const jsInput = document.getElementById("js-input");
+      const jsOutput = document.getElementById("js-output");
+
+      jsValidationForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const jsString = jsInput.value;
+
+        try {
+          eval(jsString);
+          console.log("Valid JavaScript:", jsString);
+          jsOutput.textContent = `Valid JavaScript: \n\n ${jsString}`; 
+        } catch (error) {
+          console.error(error);
+          jsOutput.textContent = "Invalid JavaScript: " + error.message;
+        }
+      });
+    </script>
+  </div>

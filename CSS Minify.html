@@ -1,0 +1,50 @@
+
+  <div>
+    <h1>CSS Minifier</h1>
+    <p>Enter CSS to minify:</p>
+    <form>
+      <textarea id="css-input" name="css-input"></textarea>
+      <button type="button" id="minify-btn" disabled>Minify CSS</button>
+    </form>
+    <div>
+      
+      <textarea id = "minified-result"></textarea>
+    </div>
+    <script>
+      const minifyBtn = document.getElementById('minify-btn');
+      const minifiedResultEl = document.getElementById('minified-result');
+
+      // Disable the minify button until the user enters some input
+      document.getElementById('css-input').addEventListener('input', function() {
+        minifyBtn.disabled = (this.value.trim() === '');
+      });
+
+      minifyBtn.addEventListener('click', function() {
+        const cssInput = document.getElementById('css-input').value.trim();
+
+        try {
+          // Check if input is valid CSS by parsing it with CSSOM
+          const sheet = new CSSStyleSheet();
+          sheet.replaceSync(cssInput);
+          if (sheet.cssRules.length === 0) {
+            throw new Error('Invalid CSS input');
+          }
+
+          let minifiedcss = cssInput.replace(/\/\*[\s\S]*?\*\//g, '') // Remove comments
+                                    .replace(/\s*([{}:;,])\s*/g, '$1') // Remove whitespace around selectors, declarations, and rules
+                                    .replace(/\s+/g, ' '); // Remove line breaks and other whitespace
+
+          // Clear the input textarea and disable the minify button
+          document.getElementById('css-input').value = '';
+          minifyBtn.disabled = true;
+
+          // Set the minified CSS as the result
+          minifiedResultEl.textContent = minifiedcss;
+        } catch (error) {
+          // If the user input is not valid css, display an error message
+          minifiedResultEl.textContent = '';
+          alert(error.message);
+        }
+      });
+    </script>
+  </div>

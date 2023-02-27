@@ -1,93 +1,79 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <h1>YAML To XML Converter</h1>
-    <h4>YAML:</h4>
-    <textarea
-      id="YAML"
-      rows="5"
-      style="width: 45%; font-size: larger"
-    ></textarea>
-    <h4>XML:</h4>
-    <textarea
-      id="XML"
-      rows="5"
-      style="width: 45%; font-size: larger"
-    ></textarea>
-    <div>
-      <button onclick="YAMLToXml()">Convert to XML</button>
-      <button onclick="fileHandling()">File</button>
-      <!-- <div><input id="url" placeholder="URL"></input></div>
+<div>
+  <h1>YAML To XML Converter</h1>
+  <h4>YAML:</h4>
+  <textarea id="YAML" rows="5" style="width: 45%; font-size: larger"></textarea>
+  <h4>XML:</h4>
+  <textarea id="XML" rows="5" style="width: 45%; font-size: larger"></textarea>
+  <div>
+    <button onclick="YAMLToXml()">Convert to XML</button>
+    <button onclick="fileHandling()">File</button>
+    <!-- <div><input id="url" placeholder="URL"></input></div>
     <button onclick='fetch(document.getElementById("url").value)
     .then(res => res.blob())
     .then(blob => blob.text())
     .then(yamlAsString => {console.log(yamlAsString)})'>URL</button> -->
-      <button onclick="location.reload()">RESET</button>
-    </div>
-    <!-- YAML TO XML Function -->
+    <button onclick="location.reload()">RESET</button>
+  </div>
+  <!-- YAML TO XML Function -->
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.js"
-      integrity="sha512-CwxrLIN0dww6lRc/oKeZiI9oGlOob2HPMU0Yu0g+P3/G1cuTii+tt0jpyEKhilfrV7D/zmvKiVPIHUDU6xbBxg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.js"
+    integrity="sha512-CwxrLIN0dww6lRc/oKeZiI9oGlOob2HPMU0Yu0g+P3/G1cuTii+tt0jpyEKhilfrV7D/zmvKiVPIHUDU6xbBxg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
 
-    <script>
-      function fileHandling() {
-        var input = document.createElement("input");
-        input.type = "file";
-        input.onchange = (e) => {
-          // getting a hold of the file reference
-          var file = e.target.files[0];
+  <script>
+    function fileHandling() {
+      var input = document.createElement("input");
+      input.type = "file";
+      input.onchange = (e) => {
+        // getting a hold of the file reference
+        var file = e.target.files[0];
 
-          // setting up the reader
-          var reader = new FileReader();
-          reader.readAsText(file, "UTF-8"); // this is reading as data url
+        // setting up the reader
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8"); // this is reading as data url
 
-          // here we tell the reader what to do when it's done reading...
-          reader.onload = (readerEvent) => {
-            var content = readerEvent.target.result; // this is the content!
-            document.querySelector("#YAML").innerHTML = content;
-          };
+        // here we tell the reader what to do when it's done reading...
+        reader.onload = (readerEvent) => {
+          var content = readerEvent.target.result; // this is the content!
+          document.querySelector("#YAML").innerHTML = content;
         };
-        input.click();
-      }
+      };
+      input.click();
+    }
 
-      function YAMLToXml() {
-        const yamlStr = document.getElementById("YAML").value;
-        const obj = jsyaml.load(yamlStr);
-        const yamlString = `${yamlToXml(obj)}`;
-        // // Helper function to convert YAML to XML
-        function yamlToXml(obj) {
-          let xml = "";
-          for (let key in obj) {
-            if (Array.isArray(obj[key])) {
-              obj[key].forEach(function (item) {
-                xml += "\n<" + key + ">";
-                xml += yamlToXml(item);
-                xml += "</" + key + ">";
-              });
-            } else if (typeof obj[key] === "object") {
+    function YAMLToXml() {
+      const yamlStr = document.getElementById("YAML").value;
+      const obj = jsyaml.load(yamlStr);
+      const yamlString = `${yamlToXml(obj)}`;
+      // // Helper function to convert YAML to XML
+      function yamlToXml(obj) {
+        let xml = "";
+        for (let key in obj) {
+          if (Array.isArray(obj[key])) {
+            obj[key].forEach(function (item) {
               xml += "\n<" + key + ">";
-              xml += yamlToXml(obj[key]);
+              xml += yamlToXml(item);
               xml += "</" + key + ">";
-            } else {
-              if (
-                Object.keys(obj[key]).length === 1 &&
-                JSON.stringify(obj) !== JSON.stringify(obj[key])
-              )
-                xml += obj[key];
-              else xml += "\n<" + key + ">" + obj[key] + "</" + key + ">";
-            }
+            });
+          } else if (typeof obj[key] === "object") {
+            xml += "\n<" + key + ">";
+            xml += yamlToXml(obj[key]);
+            xml += "</" + key + ">";
+          } else {
+            if (
+              Object.keys(obj[key]).length === 1 &&
+              JSON.stringify(obj) !== JSON.stringify(obj[key])
+            )
+              xml += obj[key];
+            else xml += "\n<" + key + ">" + obj[key] + "</" + key + ">";
           }
-          return xml;
         }
-        document.getElementById("XML").innerHTML = yamlString;
+        return xml;
       }
-    </script>
-  </body>
-</html>
+      document.getElementById("XML").innerHTML = yamlString;
+    }
+  </script>
+</div>

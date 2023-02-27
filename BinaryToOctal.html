@@ -1,0 +1,27 @@
+<div>
+  <h1> Binary to Octal Converter</h1>
+  <h2>Input</h2>
+  <input id="input"></input>
+  <button id="input-convert">Convert</button>
+
+  <h2>Output</h2>
+  <input id="output"></input>
+  <script>
+    const output = document.getElementById('output');
+
+    const input = document.getElementById('input');
+    const inputConvertButton = document.getElementById('input-convert');
+
+    inputConvertButton.addEventListener('click', () => {
+      const binary = input.value;
+      let decimal = parseInt(binary, 2);
+      console.log(decimal)
+      let octal = decimal.toString(8);
+
+      output.value = octal
+      return octal;
+    })
+
+
+  </script>
+</div>
