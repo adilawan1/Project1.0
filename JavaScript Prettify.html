@@ -1,0 +1,81 @@
+
+  <div>
+    <h1>JavaScript Prettify</h1>
+  
+    <h2>Input</h2>
+    <textarea id="input"></textarea>
+    <button id="input-convert">Convert</button>
+    <br><br>
+    <h2>Output</h2>
+    <textarea id="output"></textarea>
+    <button type="submit" id="download-btn">Download JavaScript</button>
+
+    <script>
+      const downloadButton = document.getElementById('download-btn');
+      const input = document.getElementById('input');
+      const inputConvertButton = document.getElementById('input-convert');
+      const output = document.getElementById('output');
+
+      let JsString;
+
+      inputConvertButton.addEventListener('click', () => {
+        try {
+          const JavaScript = input.value;
+          const tabSize = 2;
+          JsString = prettify(JavaScript, tabSize);
+          output.value = JsString;
+        } catch (error) {
+          console.error(error);
+          alert('There was an error with your input.');
+        }
+      });
+
+      downloadButton.addEventListener('click', () => {
+        if (JsString != null) {
+          const filename = 'output.js';
+          const link = document.createElement('a');
+          link.setAttribute('href', `data:csv/plain;charset=utf-8,${encodeURIComponent(JsString)}`);
+          link.setAttribute('download', filename);
+          link.click();
+        } else {
+          alert('Please convert your JavaScript code before downloading.');
+        }
+      });
+      function prettify(code, indentSize) {
+  let indentLevel = 0;
+  let indent = "";
+  
+  // Split the code into lines
+  const lines = code.split("\n");
+  
+  // Loop through the lines
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i].trim();
+  
+    // Increase the indent level for opening braces
+    if (line.endsWith("{")) {
+      indentLevel++;
+    }
+  
+    // Decrease the indent level for closing braces
+    if (line.startsWith("}")) {
+      indentLevel--;
+    }
+  
+    // Add the current indent to the line
+    for (let j = 0; j < indentLevel * indentSize; j++) {
+      indent += " ";
+    }
+  
+    // Add the current line to the prettified code
+    line = line.replaceAll(";", ";\n");
+    line = line.replaceAll("{", "{\n");
+    line = line.replaceAll("}", "}\n");
+    indent += line;
+  }
+  
+  return indent;
+}
+
+    </script>
+  </div>
