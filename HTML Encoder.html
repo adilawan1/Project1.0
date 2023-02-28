@@ -1,0 +1,58 @@
+
+  <div>
+    <h1>HTML Encoder</h1>
+    <p>Enter HTML to encode:</p>
+    <form>
+      <input
+        type="radio"
+        id="encode-html"
+        name="action"
+        value="encode-html"
+        checked
+      />
+      <label for="encode-html">Encode HTML</label>
+      <br />
+      <input type="radio" id="encode-js" name="action" value="encode-js" />
+      <label for="encode-js">Encode in JavaScript Unicode</label>
+      <br />
+      <textarea id="html-input" name="html-input"></textarea>
+      <br />
+      <button type="submit" name="submit-button" value="Submit">Submit</button>
+    </form>
+    <textarea id="result"></textarea>
+    <script>
+      const form = document.querySelector('form');
+      const result = document.querySelector('#result');
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const action = document.querySelector(
+          'input[name="action"]:checked'
+        ).value;
+        const htmlInput = document.querySelector('#html-input');
+        const html = htmlInput.value;
+        // Check if input contains any of the common HTML tags, spaces, or new lines
+        const validHTML = /<\/?[a-zA-Z][^>]*>| |\r\n|\r|\n/.test(html);
+        if (validHTML) {
+          // Encode the HTML
+          try {
+            const encodedHTML = action === 'encode-html'
+              ? html.replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;')
+                    .replace(/`/g, '&#x60;')
+                    .replace(/ /g, '&nbsp;') 
+                    .replace(/\r\n|\r|\n/g, '&lt;br&gt;')
+              : [...html].map((char) => `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`).join('');
+            result.textContent = encodedHTML;
+          } catch (error) {
+            console.error(error);
+            result.textContent = 'Invalid HTML';
+          }
+        } else {
+          result.textContent = 'Invalid HTML input';
+        }
+      });
+    </script>
+  </div>

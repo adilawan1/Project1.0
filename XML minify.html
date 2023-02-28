@@ -1,0 +1,124 @@
+
+<div>
+    <h1>XML Minify</h1>
+  
+    <h2>Input</h2>
+    <textarea id="input"></textarea>
+    <button id="input-convert">Convert</button>
+    <br><br>
+
+    <h2>Output</h2>
+    <textarea id="output"></textarea>
+    <button type="submit" id="download-btn">Download XML</button>
+  
+    <script>
+      const downloadButton = document.getElementById('download-btn');
+      let xmlStr;
+  
+      function minifyXml(xml) {
+        let inTag = false;
+        let inComment = false;
+        let inCDATA = false;
+        let minifiedXml = '';
+
+        for (let i = 0; i < xml.length; i++) {
+          const char = xml[i];
+
+          if (inComment) {
+            if (xml.slice(i, i + 3) === '-->') {
+              inComment = false;
+              i += 2;
+            }
+            continue;
+          }
+
+          if (inCDATA) {
+            if (xml.slice(i, i + 3) === ']]>') {
+              inCDATA = false;
+              i += 2;
+            }
+            continue;
+          }
+
+          if (char === '<') {
+            inTag = true;
+          } else if (char === '>') {
+            inTag = false;
+            minifiedXml += '>';
+            continue;
+          }
+
+          if (inTag) {
+            minifiedXml += char;
+            continue;
+          }
+
+          if (char === '-') {
+            if (xml.slice(i, i + 4) === '<!--') {
+              inComment = true;
+              i += 3;
+              continue;
+            }
+          }
+
+          if (char === '[') {
+            if (xml.slice(i, i + 9) === '<![CDATA[') {
+              inCDATA = true;
+              i += 8;
+              continue;
+            }
+          }
+
+          if (!/\s/.test(char)) {
+            minifiedXml += char;
+          } else {
+            // Remove extra spaces between tags
+            const nextChar = xml[i + 1];
+            if (nextChar === '<' || nextChar === '>') {
+              continue;
+            } else if (minifiedXml[minifiedXml.length - 1] !== ' ') {
+              minifiedXml += '';
+            }
+          }
+        }
+
+        return minifiedXml;
+      }
+
+      const input = document.getElementById('input');
+      const inputConvertButton = document.getElementById('input-convert');
+      inputConvertButton.addEventListener('click', () => {
+        const xml = input.value;
+        try {
+          xmlStr = minifyXml(xml);
+          const output = document.getElementById('output');
+          output.value = xmlStr;
+        } catch (error) {
+          alert('An error occurred while processing the XML: ' + error.message);
+        }
+      });
+
+
+
+
+  
+  
+  downloadButton.addEventListener('click', () => {
+          if (xmlStr != null) {
+            let filename = 'output.xml';
+  
+            var link = document.createElement('a');
+  
+            link.setAttribute(
+              'href',
+              'data:csv/plain;charset=utf-8,' + encodeURIComponent(xmlStr)
+            );
+  
+            link.setAttribute('download', filename);
+  
+            link.click();
+          }
+        })
+  
+    </script>
+</div>
