@@ -1,0 +1,86 @@
+<div>
+  <h1>Text Columns to TSV Converter</h1>
+
+  <h2>File Upload</h2>
+  <button id="file-convert">Upload Data</button>
+  <br /><br />
+
+  <h2>Input</h2>
+  <textarea id="input"></textarea>
+  <button id="input-convert" onclick="TC2TSV()">Convert</button>
+  <br /><br />
+
+  <!-- <h2>URL</h2>
+  <input type="url" id="url-input" />
+  <button id="url-convert">Upload</button>
+  <br /><br /> -->
+
+  <h2>Output</h2>
+  <textarea id="output"></textarea>
+  <button type="submit" id="download-btn">Download tsv</button>
+  <script>
+    const downloadButton = document.getElementById("download-btn");
+    const fileInput = document.getElementById("file-input");
+    const fileConvertButton = document.getElementById("file-convert");
+    fileConvertButton.addEventListener("click", () => {
+      var input = document.createElement("input");
+      input.type = "file";
+      input.onchange = (e) => {
+        // getting a hold of the file reference
+        var file = e.target.files[0];
+
+        // setting up the reader
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8"); // this is reading as data url
+
+        // here we tell the reader what to do when it's done reading...
+        reader.onload = (readerEvent) => {
+          var content = readerEvent.target.result; // this is the content!
+          document.querySelector("#input").innerHTML = content;
+        };
+      };
+      input.click();
+    });
+
+    const input = document.getElementById("input");
+    const inputConvertButton = document.getElementById("input-convert");
+    // const urlInput = document.getElementById("url-input");
+    // const urlConvertButton = document.getElementById("url-convert");
+    // urlConvertButton.addEventListener("click", () => {
+    //   fetch(document.getElementById("url-input").value)
+    //     .then((res) => res.text())
+    //     .then((text) => (document.getElementById("input").innerHTML = text));
+    // });
+
+    // Helper function to convert TEXT Columns to CSV
+    function TC2TSV() {
+      document.getElementById("input").innerHTML =
+        document.getElementById("input").value;
+      let tsvStr = document.getElementById("input").innerHTML;
+      const txtString = `${tctotsv(tsvStr)}`;
+      function tctotsv(obj) {
+        let text = obj.replaceAll("&nbsp;", "\t");
+        return text;
+      }
+      document.getElementById("output").innerHTML = txtString;
+    }
+
+    downloadButton.addEventListener("click", () => {
+      if (document.getElementById("output").value != null) {
+        let filename = "output.tsv";
+
+        var link = document.createElement("a");
+
+        link.setAttribute(
+          "href",
+          "data:csv/plain;charset=utf-8," +
+            encodeURIComponent(document.getElementById("output").value)
+        );
+
+        link.setAttribute("download", filename);
+
+        link.click();
+      }
+    });
+  </script>
+</div>
