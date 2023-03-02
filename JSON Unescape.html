@@ -1,0 +1,67 @@
+
+  <div>
+    <h1>JSON Unescape</h1>
+  
+    <h2>Input</h2>
+    <textarea id="input"></textarea>
+    <button id="input-convert">Convert</button>
+    <br><br>
+  
+    <h2>Output</h2>
+    <textarea id="output"></textarea>
+    <button type="submit" id="download-btn">Download JSON</button>
+  
+    <script>
+      const downloadButton = document.getElementById('download-btn');
+      let jsonString;
+  
+      const input = document.getElementById('input');
+      const inputConvertButton = document.getElementById('input-convert');
+      inputConvertButton.addEventListener('click', () => {
+        const escapedJson = input.value;
+        jsonString = jsonUnescape(escapedJson);
+        const output = document.getElementById('output');
+        output.value = jsonString;
+      });
+  
+      function jsonUnescape(str) {
+        return str.replace(/\\["\\/bfnrtu]/g, function(match) {
+        switch(match) {
+        case '\\"': return '"';
+        case '\\\\': return '\\';
+        case '\\/': return '/';
+        case '\\b': return '\b';
+        case '\\f': return '\f';
+        case '\\n': return '\n';
+        case '\\r': return '\r';
+        case '\\t': return '\t';
+        default:
+        // For escaped Unicode characters, decode them to their actual character code.
+        if (match.slice(0,2) === '\\u') {
+          return String.fromCharCode(parseInt(match.slice(2), 16));
+        }
+        // If it's not a recognized escape sequence, just return the original character.
+        return match;
+    }
+  });
+}
+
+      
+      downloadButton.addEventListener('click', () => {
+        if (jsonString != null) {
+          const filename = 'output.json';
+  
+          const link = document.createElement('a');
+  
+          link.setAttribute(
+            'href',
+            'data:application/json;charset=utf-8,' + encodeURIComponent(jsonString)
+          );
+  
+          link.setAttribute('download', filename);
+  
+          link.click();
+        }
+      });
+    </script>
+  </div>

@@ -1,0 +1,82 @@
+
+<div>
+    <h1>JSON Escape</h1>
+  
+    <h2>Input</h2>
+    <textarea id="input"></textarea>
+    <button id="input-convert">Convert</button>
+    <br><br>
+  
+  
+    <h2>Output</h2>
+    <textarea id="output"></textarea>
+    <button type="submit" id="download-btn">Download JSON</button>
+  
+    <script>
+      const downloadButton = document.getElementById('download-btn');
+      let JsonString;
+  
+  
+
+  
+  const input = document.getElementById('input');
+  const inputConvertButton = document.getElementById('input-convert');
+  inputConvertButton.addEventListener('click', () => {
+    const JSON = input.value;
+    JsonString = escapeJson(JSON);
+    const output = document.getElementById('output');
+    output.value = JsonString;
+  });
+  
+  function escapeJson(jsonInput) {
+  let parsedJson = null;
+
+  try {
+    parsedJson = JSON.parse(jsonInput);
+  } catch (e) {
+    alert("Invalid JSON data!");
+    return;
+  }
+
+  const escapedJson = JSON.stringify(parsedJson)
+    .replace(/[\u007F-\uFFFF]/g, function (chr) {
+      return "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4);
+    })
+    .replace(/[\\]/g, '\\\\')
+    .replace(/[\"]/g, '\\\"')
+    .replace(/[\/]/g, '\\/')
+    .replace(/[\b]/g, '\\b')
+    .replace(/[\f]/g, '\\f')
+    .replace(/[\n]/g, '\\n')
+    .replace(/[\r]/g, '\\r')
+    .replace(/[\t]/g, '\\t')
+    .replace(/{/g, '{\r\\n ')
+    .replace(/,/g, ',\r\\n ')
+    .replace(/}/g, '}\r\\n ')
+    .replace(/\[/g, '[\r\\n ')
+    .replace(/]/g, ']\r\\n ');
+
+
+  return escapedJson;
+}
+
+
+  downloadButton.addEventListener('click', () => {
+          if (JsonString != null) {
+            let filename = 'output.txt';
+  
+            var link = document.createElement('a');
+  
+            link.setAttribute(
+              'href',
+              'data:csv/plain;charset=utf-8,' + encodeURIComponent(JsonString)
+            );
+  
+            link.setAttribute('download', filename);
+  
+            link.click();
+          }
+        })
+  
+    </script>
+</div>
