@@ -10,7 +10,7 @@
   
     <h2>Output</h2>
     <textarea id="output"></textarea>
-    <button type="submit" id="download-btn">Download TSV</button>
+    <button type="submit" id="download-btn">Download JSON</button>
   
     <script>
       const downloadButton = document.getElementById('download-btn');
@@ -45,7 +45,7 @@
 
   downloadButton.addEventListener('click', () => {
           if (JsonString != null) {
-            let filename = 'output.txt';
+            let filename = 'output.json';
   
             var link = document.createElement('a');
   
