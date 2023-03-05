@@ -1,77 +1,81 @@
+<div>
+  <h1>XML to TSV Converter</h1>
+  <h4>TSV:</h4>
+  <textarea id="TSV" rows="5" style="width: 45%; font-size: larger"></textarea>
+  <h4>XML:</h4>
+  <textarea id="XML" rows="5" style="width: 45%; font-size: larger"></textarea>
   <div>
-    <h1>XML to TSV Converter</h1>
-    <h4>TSV:</h4>
-    <textarea
-      id="TSV"
-      rows="5"
-      style="width: 45%; font-size: larger"
-    ></textarea>
-    <h4>XML:</h4>
-    <textarea
-      id="XML"
-      rows="5"
-      style="width: 45%; font-size: larger"
-    ></textarea>
-    <div>
-      <button onclick="fileHandling()">Upload a File</button>
-      <button onclick="XML2TSV()">Convert to TSV</button>
-    </div>
-    <div><input id="url" placeholder="URL"></input></div>
-    <button onclick='fetch(document.getElementById("url").value)
-    .then(res => res.text())
-    .then(text => document.getElementById("XML").innerHTML =text)'>URL</button>
-    <button onclick="location.reload()">RESET</button>
-    <!-- XML TO JSON Function -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fast-xml-parser/4.1.2/fxparser.min.js" integrity="sha512-iXGw9+hLdQ/UOeb3jmfh+Rcp8MAaH+vRUwUBI9QXZytEDNWpO3ud4xfja86dBDKxmLIRVNxXwEPiN1dRolgYfg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-      function fileHandling() {
-        var input = document.createElement("input");
-        input.type = "file";
-        input.onchange = (e) => {
-          // getting a hold of the file reference
-          var file = e.target.files[0];
-
-          // setting up the reader
-          var reader = new FileReader();
-          reader.readAsText(file, "UTF-8"); // this is reading as data url
-
-          // here we tell the reader what to do when it's done reading...
-          reader.onload = (readerEvent) => {
-            var content = readerEvent.target.result; // this is the content!
-            document.querySelector("#XML").innerText = content;
-          };
-        };
-        input.click();
-      }
-
-      const parser = new XMLParser();
-      function XML2TSV() {
-        var xmlString = document.getElementById("XML").value;
-        xmlString=xmlString.replace('<?xml version="1.0" encoding="utf-8"?>','')
-
-        var jsonObj =parser.parse(xmlString)
-        function obj2tsv(Obj,dummyObj){
-        let text=""
-        for (key in Obj)
-        {if(Array.isArray(Obj[key]))
-        { Obj[key].forEach(element => {
-            text+=obj2tsv(element,dummyObj);
-        });
-        }else if (typeof Obj[key] === "object"){
-            text+=obj2tsv(Obj[key],dummyObj)
-        }
-        else{
-            dummyObj[key]= new Array
-            text+=Obj[key]+'\t'
-        }}
-        text+='\n'
-        return text;
-        }
-        const dummyObj={};
-        let TSV=obj2tsv(jsonObj,dummyObj)
-        console.log(Object.keys(dummyObj).join('\t'))
-        const text=Object.keys(dummyObj).join('\t')+'\n'+TSV
-        document.getElementById("TSV").innerHTML = text
-      }
-    </script>
+    <button onclick="fileHandling()">Upload a File</button>
+    <button onclick="XML2TSV()">Convert to TSV</button>
   </div>
+  <div><input id="url" placeholder="URL" /></div>
+  <button
+    onclick='fetch(document.getElementById("url").value)
+    .then(res => res.text())
+    .then(text => document.getElementById("XML").innerHTML =text)'
+  >
+    URL
+  </button>
+  <button onclick="location.reload()">RESET</button>
+  <!-- XML TO JSON Function -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/fast-xml-parser/4.1.2/fxparser.min.js"
+    integrity="sha512-iXGw9+hLdQ/UOeb3jmfh+Rcp8MAaH+vRUwUBI9QXZytEDNWpO3ud4xfja86dBDKxmLIRVNxXwEPiN1dRolgYfg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script>
+    function fileHandling() {
+      var input = document.createElement("input");
+      input.type = "file";
+      input.onchange = (e) => {
+        // getting a hold of the file reference
+        var file = e.target.files[0];
+
+        // setting up the reader
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8"); // this is reading as data url
+
+        // here we tell the reader what to do when it's done reading...
+        reader.onload = (readerEvent) => {
+          var content = readerEvent.target.result; // this is the content!
+          document.querySelector("#XML").innerText = content;
+        };
+      };
+      input.click();
+    }
+
+    const parser = new XMLParser();
+    function XML2TSV() {
+      var xmlString = document.getElementById("XML").value;
+      xmlString = xmlString.replace(
+        '<?xml version="1.0" encoding="utf-8"?>',
+        ""
+      );
+
+      var jsonObj = parser.parse(xmlString);
+      function obj2tsv(Obj, dummyObj) {
+        let text = "";
+        for (key in Obj) {
+          if (Array.isArray(Obj[key])) {
+            Obj[key].forEach((element) => {
+              text += obj2tsv(element, dummyObj);
+            });
+          } else if (typeof Obj[key] === "object") {
+            text += obj2tsv(Obj[key], dummyObj);
+          } else {
+            dummyObj[key] = new Array();
+            text += Obj[key] + "\t";
+          }
+        }
+        text += "\n";
+        return text;
+      }
+      const dummyObj = {};
+      let TSV = obj2tsv(jsonObj, dummyObj);
+      console.log(Object.keys(dummyObj).join("\t"));
+      const text = Object.keys(dummyObj).join("\t") + "\n" + TSV;
+      document.getElementById("TSV").innerHTML = text;
+    }
+  </script>
+</div>
