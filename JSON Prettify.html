@@ -1,0 +1,28 @@
+<div class="custom-widget">
+  <h1>JSON Prettify</h1>
+
+  <h2>Input</h2>
+  <textarea id="input" class="inputfull" placeholder="Please enter JSON"></textarea>
+  <button id="input-convert" onclick="prettifyJson()">Prettify JSON</button>
+  <br><br>
+  <h2>Output</h2>
+  <textarea cols="40" rows="10" id="output" class="inputfull" readonly></textarea>
+
+  <script>
+    function prettifyJson() {
+      const input = document.getElementById('input');
+      const output = document.getElementById('output');
+      let parsedJson;
+
+      try {
+        parsedJson = JSON.parse(input.value);
+      } catch (e) {
+        alert("Invalid JSON data!");
+        return;
+      }
+
+      const prettyJson = JSON.stringify(parsedJson, null, 2);
+      output.value = prettyJson;
+    }
+  </script>
+</div>

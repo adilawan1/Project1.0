@@ -1,0 +1,101 @@
+<div class="custom-widget">
+  <h1>XML Minify</h1>
+
+  <h2>Input</h2>
+  <textarea id="input" class="inputfull"></textarea>
+  <input id="input-convert" type="submit" onclick = "minifyXml()" value = "Minify XML">
+  <br><br>
+
+  <h2>Output</h2>
+  <textarea cols="40" rows="10" id="output" class="inputfull" readonly></textarea>
+
+  <script>
+    function minifyXml(xml) {
+      let inTag = false;
+      let inComment = false;
+      let inCDATA = false;
+      let minifiedXml = '';
+
+      for (let i = 0; i < xml.length; i++) {
+        const char = xml[i];
+
+        if (inComment) {
+          if (xml.slice(i, i + 3) === '-->') {
+            inComment = false;
+            i += 2;
+          }
+          continue;
+        }
+
+        if (inCDATA) {
+          if (xml.slice(i, i + 3) === ']]>') {
+            inCDATA = false;
+            i += 2;
+          }
+          continue;
+        }
+
+        if (char === '<') {
+          inTag = true;
+        } else if (char === '>') {
+          inTag = false;
+          minifiedXml += '>';
+          continue;
+        }
+
+        if (inTag) {
+          minifiedXml += char;
+          continue;
+        }
+
+        if (char === '-') {
+          if (xml.slice(i, i + 4) === '<!--') {
+            inComment = true;
+            i += 3;
+            continue;
+          }
+        }
+
+        if (char === '[') {
+          if (xml.slice(i, i + 9) === '<![CDATA[') {
+            inCDATA = true;
+            i += 8;
+            continue;
+          }
+        }
+
+        if (!/\s/.test(char)) {
+          minifiedXml += char;
+        } else {
+          // Remove extra spaces between tags
+          const nextChar = xml[i + 1];
+          if (nextChar === '<' || nextChar === '>') {
+            continue;
+          } else if (minifiedXml[minifiedXml.length - 1] !== ' ') {
+            minifiedXml += ' ';
+          }
+        }
+      }
+
+      return minifiedXml;
+    }
+
+    const input = document.getElementById('input');
+    const inputConvertButton = document.getElementById('input-convert');
+    inputConvertButton.addEventListener('click', () => {
+      const xml = input.value.trim();
+      if (!xml) {
+        alert('Please enter XML to minify.');
+        return;
+      }
+
+      try {
+        const xmlStr = minifyXml(xml);
+        const output = document.getElementById('output');
+        output.value = xmlStr;
+      } catch (error) {
+        alert('An error occurred while processing the XML: ' + error.message);
+      }
+    });
+  </script>
+</div>
