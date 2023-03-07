@@ -1,75 +1,47 @@
-  <div>
-    <h1>TSV to XML Converter</h1>
-    <h4>TSV:</h4>
-        <textarea
-          class="editor"
-          id="editor1"
-          rows="5"
-          style="width: 45%; font-size: larger"
-          placeholder="TSV Data"
-        ></textarea>
-    <h4>XML:</h4>
-        <textarea
-          class="editor"
-          id="editor2"
-          rows="5"
-          style="width: 45%; font-size: larger"
-          placeholder="XML Data"
-        ></textarea>
-      </div>
-        <input id="url" placeholder="Enter URL">
-        <div>
-        <button
-          id="URL-btn"
-          onclick="fetch(document.getElementById('url').value)
-          .then(res => res.text())
-          .then(text => document.getElementById('editor1').innerHTML =text)"
-        >
-          Get Data
-        </button>
-     
-        <button id="URL-btn" onclick="fileHandling()">Upload a File</button>
-        <button id="convert-btn" onclick="Convert()">Convert to XML</button>
-      </div>
-    </div>
-    <script>
-      function fileHandling() {
-        var input = document.createElement("input");
-        input.type = "file";
-        input.onchange = (e) => {
-          // getting a hold of the file reference
-          var file = e.target.files[0];
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter TSV
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
 
-          // setting up the reader
-          var reader = new FileReader();
-          reader.readAsText(file, "UTF-8"); // this is reading as data url
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="Convert()"
+      value="To XML"
+    />
+  </p>
 
-          // here we tell the reader what to do when it's done reading...
-          reader.onload = (readerEvent) => {
-            var content = readerEvent.target.result; // this is the content!
-            document.querySelector("#editor1").innerHTML = content;
-          };
-        };
-        input.click();
-      }
+  <p>
+    <label
+      >XML Output<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
 
-      function Convert() {
-        var editor1Content = document.getElementById("editor1").value;
-        var arr = editor1Content.split("\n");
-        var titles = arr[0].split("\t");
-        var text = `<?xml version="1.0" encoding="utf-8"?>\n<root>\n`;
-        arr.shift();
-        for (key in arr) {
-          text += `<row>\n`;
-          for (vals in arr[key].split("\t")) {
-            text += `<${titles[vals]}>${arr[key].split("\t")[vals]}</${
-              titles[vals]
-            }>\n`;
-          }
-          text += `</row>\n`;
+  <script>
+    function Convert() {
+      var editor1Content = document.getElementById("input").value;
+      var arr = editor1Content.split("\n");
+      var titles = arr[0].split("\t");
+      var text = `<?xml version="1.0" encoding="utf-8"?>\n<root>\n`;
+      arr.shift();
+      for (key in arr) {
+        text += `<row>\n`;
+        for (vals in arr[key].split("\t")) {
+          text += `<${titles[vals]}>${arr[key].split("\t")[vals]}</${
+            titles[vals]
+          }>\n`;
         }
-        text += `</root>`;
-        document.getElementById("editor2").innerHTML = text;
+        text += `</row>\n`;
       }
-    </script>
-  </div>
+      text += `</root>`;
+      document.getElementById("output").innerHTML = text;
+    }
+  </script>
+</div>

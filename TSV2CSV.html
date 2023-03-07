@@ -11,26 +11,25 @@
     <input
       id="input-convert"
       type="submit"
-      onclick="TSV2TC()"
-      value="To text columns"
+      onclick="tsv2csv()"
+      value="To CSV"
     />
   </p>
 
   <p>
     <label
-      >Text Output<br />
+      >TSV Output<br />
       <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
       </textarea>
     </label>
   </p>
 
   <script>
-    // Helper function to convert YAML to CSV
-    function TSV2TC() {
+    function tsv2csv() {
       const csvStr = document.getElementById("input").value;
-      const txtString = `${tsvtotc(csvStr)}`;
-      function tsvtotc(obj) {
-        let text = obj.replaceAll("\t", "&nbsp;");
+      const txtString = `${tsvtocsv(csvStr)}`;
+      function tsvtocsv(obj) {
+        let text = obj.replaceAll("\t", ",");
         return text;
       }
       document.getElementById("output").innerHTML = txtString;

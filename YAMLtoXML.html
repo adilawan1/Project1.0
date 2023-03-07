@@ -1,20 +1,28 @@
-<div>
-  <h1>YAML To XML Converter</h1>
-  <h4>YAML:</h4>
-  <textarea id="YAML" rows="5" style="width: 45%; font-size: larger"></textarea>
-  <h4>XML:</h4>
-  <textarea id="XML" rows="5" style="width: 45%; font-size: larger"></textarea>
-  <div>
-    <button onclick="YAMLToXml()">Convert to XML</button>
-    <button onclick="fileHandling()">File</button>
-    <!-- <div><input id="url" placeholder="URL"></div>
-    <button onclick='fetch(document.getElementById("url").value)
-    .then(res => res.blob())
-    .then(blob => blob.text())
-    .then(yamlAsString => {console.log(yamlAsString)})'>URL</button> -->
-    <button onclick="location.reload()">RESET</button>
-  </div>
-  <!-- YAML TO XML Function -->
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter YAML
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="YAMLToXml()"
+      value="To XML"
+    />
+  </p>
+
+  <p>
+    <label
+      >XML Output<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
 
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.js"
@@ -24,28 +32,8 @@
   ></script>
 
   <script>
-    function fileHandling() {
-      var input = document.createElement("input");
-      input.type = "file";
-      input.onchange = (e) => {
-        // getting a hold of the file reference
-        var file = e.target.files[0];
-
-        // setting up the reader
-        var reader = new FileReader();
-        reader.readAsText(file, "UTF-8"); // this is reading as data url
-
-        // here we tell the reader what to do when it's done reading...
-        reader.onload = (readerEvent) => {
-          var content = readerEvent.target.result; // this is the content!
-          document.querySelector("#YAML").innerHTML = content;
-        };
-      };
-      input.click();
-    }
-
     function YAMLToXml() {
-      const yamlStr = document.getElementById("YAML").value;
+      const yamlStr = document.getElementById("input").value;
       const obj = jsyaml.load(yamlStr);
       const yamlString = `${yamlToXml(obj)}`;
       // // Helper function to convert YAML to XML
@@ -73,7 +61,7 @@
         }
         return xml;
       }
-      document.getElementById("XML").innerHTML = yamlString;
+      document.getElementById("output").innerHTML = yamlString;
     }
   </script>
 </div>
