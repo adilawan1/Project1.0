@@ -1,0 +1,58 @@
+<div class="custom-widget">
+  <h2>XML Prettify</h2>
+
+  <p>
+    <label>
+      Paste your XML code below:
+      <br>
+      <textarea cols="40" rows="10" id="input" class='inputfull' placeholder="Please enter XML"></textarea>
+    </label>
+  </p>
+  <p>
+    <label>
+      Use tabs for indentation:
+      <input type="checkbox" id="useTabs">
+    </label>
+  </p>
+  <p>
+    <button id="input-convert" onclick="prettifyXml()">Prettify</button>
+  </p>
+  <p>
+    <label>
+      Prettified XML code:
+      <br>
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly></textarea>
+    </label>
+  </p>
+
+  <script src="https://cdn.rawgit.com/vkiryukhin/vkBeautify/master/vkbeautify.js"></script> 
+   <script>
+    // Define the prettifyXml function outside of window.onload
+    const prettifyXml = () => {
+      // Get the user's input from the textarea
+      const xmlInput = document.querySelector("#input").value;
+
+      // Determine if tabs or spaces should be used for indentation
+      const useTabs = document.querySelector("#useTabs").checked;
+      const indentation = useTabs ? "\t" : " ";
+
+      try {
+        // Use vkbeautify library to prettify the XML code
+        const prettifiedXml = vkbeautify.xml(xmlInput, indentation);
+
+        // Display the prettified XML code in the output textarea
+        document.querySelector("#output").textContent = prettifiedXml;
+      } catch (e) {
+        // Display the error message in the output textarea
+        document.querySelector("#output").textContent = `Error: ${e.message}`;
+      }
+    };
+
+    window.onload = () => {
+      // Call prettifyXml once on page load
+      prettifyXml();
+    };
+  </script>
+</div>
+
+
