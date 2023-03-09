@@ -1,0 +1,58 @@
+<div class='custom-widget'>
+    <h2>Ascii85 Decoder</h2>
+    <label>
+      Enter text to decode:
+      <br>
+      <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+    </label>
+  
+    <p>
+      <input id="input-convert" type="submit" onclick="decodeAscii85()" value="Decode">
+    </p>
+  
+    <p>
+      <label>Decoded Text:<br>
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly=""></textarea>
+      </label>
+    </p>
+  
+    <script>
+      function decodeAscii85() {
+        const input = document.getElementById('input').value;
+        const strippedInput = input.replace(/<~|~>/g, '');
+        let output = '';
+        let buffer = 0;
+        let count = 0;
+        for (let i = 0; i < strippedInput.length; i++) {
+          if (/\s/.test(strippedInput.charAt(i))) {
+            continue;
+          }
+          buffer = buffer * 85 + strippedInput.charCodeAt(i) - 33;
+          count++;
+          if (count === 5) {
+            let byte1 = (buffer >> 24) & 0xFF;
+            let byte2 = (buffer >> 16) & 0xFF;
+            let byte3 = (buffer >> 8) & 0xFF;
+            let byte4 = buffer & 0xFF;
+            output += String.fromCharCode(byte1, byte2, byte3, byte4);
+            buffer = 0;
+            count = 0;
+          }
+        }
+        if (count > 0) {
+          let remaining = (count + 1) % 5;
+          if (remaining !== 0) {
+            buffer += Math.pow(85, 5 - count) - 1;
+          }
+          let byteCount = count - remaining + 1;
+          let byte1 = (buffer >> 24) & 0xFF;
+          let byte2 = (buffer >> 16) & 0xFF;
+          let byte3 = byteCount > 2 ? (buffer >> 8) & 0xFF : 0;
+          let byte4 = byteCount > 1 ? buffer & 0xFF : 0;
+          output += String.fromCharCode(byte1, byte2, byte3, byte4);
+        }
+        document.getElementById('output').value = output;
+      }
+    </script>
+  </div>
+  
