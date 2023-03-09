@@ -1,0 +1,63 @@
+
+<div class='custom-widget'>
+    <h2>Base32 Encoder</h2>
+    <p>
+      <label>
+        Enter Text:
+      <br>
+        <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+      </label>
+  
+  
+      <p>
+        <input id="input-convert" type="submit" onclick="encode()" value="Encode Base32">
+      </p>
+  
+      <p>
+        <label>Encoded<br>
+        <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+    
+        </textarea>
+        </label>
+      </p>
+  
+    <script>
+      function encode() {
+        const input = document.getElementById("input").value;
+        const output = document.getElementById("output");
+        const encoded = b32Encode(input);
+        output.textContent = encoded;
+      }
+  
+      function b32Encode(input) {
+        const base32chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+        const inputBytes = new TextEncoder().encode(input);
+        let output = "";
+  
+        for (let i = 0; i < inputBytes.length; i += 5) {
+          const byte1 = inputBytes[i];
+          const byte2 = inputBytes[i+1];
+          const byte3 = inputBytes[i+2];
+          const byte4 = inputBytes[i+3];
+          const byte5 = inputBytes[i+4];
+  
+          output += base32chars[byte1 >> 3];
+          output += base32chars[((byte1 & 0x07) << 2) | (byte2 >> 6)];
+          output += base32chars[(byte2 >> 1) & 0x1f];
+          output += base32chars[((byte2 & 0x01) << 4) | (byte3 >> 4)];
+          output += base32chars[((byte3 & 0x0f) << 1) | (byte4 >> 7)];
+          output += base32chars[(byte4 >> 2) & 0x1f];
+          output += base32chars[((byte4 & 0x03) << 3) | (byte5 >> 5)];
+          output += base32chars[byte5 & 0x1f];
+        }
+  
+        // Add padding characters
+        const numPaddingChars = (8 - (output.length % 8)) % 8;
+        output += '='.repeat(numPaddingChars);
+  
+        return output;
+      }
+    </script>
+  </div>
+  
+  
