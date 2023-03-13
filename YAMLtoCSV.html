@@ -35,30 +35,27 @@
     function YAML2CSV() {
       const yamlStr = document.getElementById("input").value;
       const obj = jsyaml.load(yamlStr);
-      const yamlString = `${yamlTocsv(obj)}`;
-      // // Helper function to convert YAML to CSV
-      function yamlTocsv(obj) {
-        let xml = "";
-        const header = Object.keys(obj[0]);
+      function convertJsonTocsv(jsonObj) {
+        let tsv = "";
+        for (const key in jsonObj) {
+          // Check if the value of the key is an object
+          if (typeof jsonObj[key] === "object") {
+            // Iterate over the keys of the object
+            for (const subKey in jsonObj[key]) {
+              // Append the key and subkey to the TSV string, separated by a tab
+              tsv += key + "." + subKey + "," + jsonObj[key][subKey] + "\n";
+            }
+          } else {
+            // Append the key and value to the TSV string, separated by a tab
+            tsv += key + "," + jsonObj[key] + "\n";
+          }
+        }
 
-        const headerString = header.join(",");
-
-        // handle null or undefined values here
-        const replacer = (key, value) => value ?? "";
-
-        const rowItems = obj.map((row) =>
-          header
-            .map((fieldName) => JSON.stringify(row[fieldName], replacer))
-            .join(",")
-        );
-
-        // join header and body, and break into separate lines
-        const csv = [headerString, ...rowItems].join("\r\n");
-
-        return csv;
+        return tsv;
       }
-
-      document.getElementById("output").innerHTML = yamlString;
+      // Call the function and log the result
+      const csvString = convertJsonTocsv(obj);
+      document.getElementById("output").innerHTML = csvString;
     }
   </script>
 </div>
