@@ -1,0 +1,44 @@
+
+<div class='custom-widget'>
+    <h2>UTF-8 Encoding</h2>
+    <p>
+	<label>
+		Enter text to encode:
+	<br>
+	<textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+	</label>
+	</p>
+
+
+  <p>
+    <input id="input-convert" type="submit" onclick="utf8Encode()" value="UTF8 Encode">
+  </p>
+  <p>
+    <label>Output:<br>
+    <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+
+    </textarea>
+    </label>
+  </p>
+
+    <script>
+     function utf8Encode() {
+  const input = document.getElementById("input").value.trim();
+  if (!input) {
+    document.getElementById("output").textContent = "Please enter some text to encode.";
+    return;
+  }
+  let output = "";
+  try {
+    const utf8 = unescape(encodeURIComponent(input));
+    for (let i = 0; i < utf8.length; i++) {
+      output += "\\x" + utf8.charCodeAt(i).toString(16).padStart(2, "0");
+    }
+    document.getElementById("output").textContent = output;
+  } catch (error) {
+    document.getElementById("output").textContent = "Error: invalid input string.";
+  }
+}
+
+    </script>
+  </div>
