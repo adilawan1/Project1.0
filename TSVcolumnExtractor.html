@@ -1,0 +1,61 @@
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter TSV
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <label>
+      Enter Column Number
+      <br />
+      <textarea cols="10" rows="1" id="num" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="XTSV()"
+      value="To CSV Rows"
+    />
+  </p>
+
+  <p>
+    <label
+      >Column<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
+  <script>
+    // Helper function to convert CSV to Rows
+    function XTSV() {
+      const tsvStr = document.getElementById("input").value;
+      const num = document.getElementById("num").value;
+      const txtString = `${xtsv(tsvStr)}`;
+      function xtsv(obj) {
+        let arr = obj.split("\n");
+        let col = arr[0].split("\t");
+        arr.shift();
+        let row = arr.length;
+        let text = "";
+        if (num - 1 >= 0 && num - 1 <= col.length) {
+          text += col[num - 1] + "\n";
+          for (let i = 0; i < row; i++) {
+            text += arr[i].split("\t")[num - 1] + "\n";
+          }
+          text += "\n";
+          return text;
+        } else {
+          alert("Enter Correct Column Number");
+          location.reload();
+        }
+      }
+      document.getElementById("output").innerHTML = txtString;
+    }
+  </script>
+</div>
