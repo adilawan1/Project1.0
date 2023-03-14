@@ -1,0 +1,64 @@
+
+<div class='custom-widget'>
+    <h2>Base58 Decode</h2>
+
+  <label>
+    Enter Base58 string:
+<br>
+<textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+</label>
+
+
+<p>
+    <input id="input-convert" type="submit" onclick="decode()" value="Decode">
+</p>
+
+<p>
+    <label>Decoded <br>
+    <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+
+    </textarea>
+    </label>
+  </p>
+
+  <script>
+    function decode() {
+      var input = document.getElementById("input").value;
+      var decoded = base58Decode(input);
+      document.getElementById("output").value = decoded;
+    }
+
+    function base58Decode(input) {
+      var alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+      var base = alphabet.length;
+      var bytes = [0];
+      var i, j, c;
+      for (i = 0; i < input.length; i++) {
+        c = input[i];
+        if (alphabet.indexOf(c) === -1) {
+          throw new Error("Invalid character");
+        }
+        for (j = 0; j < bytes.length; j++) {
+          bytes[j] *= base;
+        }
+        bytes[0] += alphabet.indexOf(c);
+        var carry = 0;
+        for (j = 0; j < bytes.length; ++j) {
+          bytes[j] += carry;
+          carry = bytes[j] >> 8;
+          bytes[j] &= 0xff;
+        }
+        while (carry) {
+          bytes.push(carry & 0xff);
+          carry >>= 8;
+        }
+      }
+      bytes.reverse(); // reverse the order of the bytes
+      var output = "";
+      for (i = 0; i < bytes.length; i++) {
+        output += String.fromCharCode(bytes[i]);
+      }
+      return output;
+    }
+  </script>
+</div>

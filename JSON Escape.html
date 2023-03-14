@@ -1,0 +1,49 @@
+<div class="custom-widget">
+  <h1>JSON Escape</h1>
+
+  <h2>Input</h2>
+  <textarea id="input" class="inputfull" placeholder="Please enter JSON to escape"></textarea>
+  <input id="input-convert"  type = "submit" onclick="escapeJson()" value = "Escape JSON">
+  <br><br>
+
+  <h2>Output</h2>
+  <textarea cols="40" rows="10" id="output" class="inputfull" readonly></textarea>
+
+  <script>
+    const input = document.getElementById('input');
+    const inputConvertButton = document.getElementById('input-convert');
+    const output = document.getElementById('output');
+
+    function escapeJson() {
+      let parsedJson = null;
+
+      try {
+        parsedJson = JSON.parse(input.value);
+      } catch (e) {
+        console.log(e);
+        alert("Invalid JSON data!");
+        return;
+      }
+
+      const escapedJson = JSON.stringify(parsedJson)
+        .replace(/[\u007F-\uFFFF]/g, function (chr) {
+          return "\\u" + ("0000" + chr.charCodeAt(0).toString(16)).substr(-4);
+        })
+        .replace(/[\\]/g, '\\\\')
+        .replace(/[\"]/g, '\\\"')
+        .replace(/[\/]/g, '\\/')
+        .replace(/[\b]/g, '\\b')
+        .replace(/[\f]/g, '\\f')
+        .replace(/[\n]/g, '\\n')
+        .replace(/[\r]/g, '\\r')
+        .replace(/[\t]/g, '\\t')
+        .replace(/{/g, '{\r\n ')
+        .replace(/,/g, ',\r\n ')
+        .replace(/}/g, '}\r\n ')
+        .replace(/\[/g, '[\r\n ')
+        .replace(/]/g, ']\r\n ');
+
+      output.value = escapedJson;
+    }
+  </script>
+</div>

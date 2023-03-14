@@ -1,0 +1,41 @@
+<div class='custom-widget'>
+    <h2>UTF-16 Encoding</h2>
+    <p>
+    <label>
+        Enter text to encode:
+    <br>
+    <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+    </label>
+    </p>
+  <p>
+    <input id="input-convert" type="submit" onclick="utf16Encode()" value="UTF16 Encode">
+  </p>
+  <p>
+</label>
+<label>UTF-16 Output:<br>
+<textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+
+</textarea>
+</label>
+</p>
+
+<script>
+
+    function utf16Encode() {
+        const input = document.getElementById("input").value.trim();
+        if (!input) {
+            document.getElementById("output").textContent = "Please enter some text to encode.";
+            return;
+        }
+        let output = "";
+        try {
+            for (let i = 0; i < input.length; i++) {
+                output += "\\u" + input.charCodeAt(i).toString(16).padStart(4, "0");
+            }
+            document.getElementById("output").textContent = output;
+        } catch (error) {
+            document.getElementById("output").textContent = "Error: invalid input string.";
+        }
+    }
+</script>
+</div>

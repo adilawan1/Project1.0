@@ -1,0 +1,79 @@
+<div class='custom-widget'>
+    <h2>Ascii85 Encoder</h2>
+    <label>
+      Enter text to Encode:
+      <br>
+      <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+    </label>
+  
+    <p>
+      <input id="input-convert" type="submit" onclick="encode()" value="Encode">
+    </p>
+  
+    <p>
+      <label>Encoded Text:<br>
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly=""></textarea>
+      </label>
+    </p>
+  
+    <script>
+      function encode() {
+        // Get the input and output textareas
+        const inputElem = document.getElementById('input');
+        const outputElem = document.getElementById('output');
+  
+        // Get the input text and encode it in Ascii85
+        const inputText = inputElem.value;
+        const encodedText = ascii85Encode(inputText);
+  
+        // Set the output textarea's value to the encoded text
+        outputElem.value = encodedText;
+      }
+  
+      function ascii85Encode(input) {
+        // The Ascii85 encoding table
+        const table = '!\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstu';
+  
+        let output = '';
+        let buffer = 0;
+        let count = 0;
+  
+        // Loop through each character in the input string
+        for (let i = 0; i < input.length; i++) {
+          // Add the character's ASCII code to the buffer
+          buffer = buffer * 256 + input.charCodeAt(i);
+          count++;
+  
+          // If we have 4 characters in the buffer, encode them in Ascii85
+          if (count === 4) {
+            let temp = '';
+            for (let j = 4; j >= 0; j--) {
+              temp += table.charAt(buffer % 85);
+              buffer = Math.floor(buffer / 85);
+            }
+            // Add the encoded characters to the output string
+            output += temp.split('').reverse().join('');
+            buffer = 0;
+            count = 0;
+          }
+        }
+  
+        // If we have 1-3 characters left in the buffer, encode them and add them to the output string
+        if (count > 0) {
+          let temp = '';
+          for (let j = count; j < 4; j++) {
+            buffer = buffer * 256;
+          }
+          for (let j = 4; j >= 0; j--) {
+            temp += table.charAt(buffer % 85);
+            buffer = Math.floor(buffer / 85);
+          }
+          output += temp.split('').reverse().join('');
+        }
+  
+        // Add the Ascii85 delimiters and return the output string
+        return output;
+      }
+    </script>
+  </div>
+  

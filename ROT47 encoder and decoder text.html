@@ -1,0 +1,56 @@
+
+<div class='custom-widget'>
+	<h2>ROT47 Encoder/Decoder</h2>
+    <p>
+		<label>
+      Input Text:
+    <br>
+    <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+    </label>
+
+    
+  <p>
+    <input id="input-convert" type="submit" onclick="encode()" value="Encode">
+  </p>
+
+      
+  <p>
+    <input id="input-convert" type="submit" onclick="decode()" value="Decode">
+  </p>
+
+
+  <p>
+    <label>Output Text:<br>
+    <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+
+    </textarea>
+    </label>
+  </p>
+
+	<script>
+		function encode() {
+			let input = document.getElementById("input").value;
+			let output = rot47(input);
+			document.getElementById("output").value = output;
+		}
+
+		function decode() {
+			let input = document.getElementById("input").value;
+			let output = rot47(input);
+			document.getElementById("output").value = output;
+		}
+
+		function rot47(str) {
+			let encodedStr = "";
+			for (let i = 0; i < str.length; i++) {
+				let charCode = str.charCodeAt(i);
+				if (charCode >= 33 && charCode <= 126) {
+					charCode = 33 + ((charCode + 14) % 94);
+				}
+				encodedStr += String.fromCharCode(charCode);
+			}
+			return encodedStr;
+		}
+	</script>
+</div>
+

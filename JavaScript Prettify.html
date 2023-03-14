@@ -1,0 +1,69 @@
+<div class="custom-widget">
+  <h1>JavaScript Prettify</h1>
+
+  <!-- Input -->
+  <h2>Input</h2>
+  <textarea id="input" class="inputfull"></textarea>
+  <input id="input-convert" type="submit" onclick="prettify()" value="Prettify JavaScript">
+  <br><br>
+
+  <!-- Output -->
+  <h2>Output</h2>
+  <textarea cols="40" rows="10" id="output" class="inputfull" readonly></textarea>
+
+  <script>
+    const input = document.getElementById('input');
+    const inputConvertButton = document.getElementById('input-convert');
+    const output = document.getElementById('output');
+
+    // Prettify the JavaScript code
+    function prettify(code, indentSize) {
+      let indentLevel = 0;
+      let indent = "";
+
+      // Split the code into lines
+      const lines = code.split("\n");
+
+      // Loop through the lines
+      lines.forEach(line => {
+        line = line.trim();
+
+        // Increase the indent level for opening braces
+        if (line.endsWith("{")) {
+          indentLevel++;
+        }
+
+        // Decrease the indent level for closing braces
+        if (line.startsWith("}")) {
+          indentLevel--;
+        }
+
+        // Add the current indent to the line
+        for (let i = 0; i < indentLevel * indentSize; i++) {
+          indent += " ";
+        }
+
+        // Add the current line to the prettified code
+        line = line.replaceAll(";", ";\n");
+        line = line.replaceAll("{", "{\n");
+        line = line.replaceAll("}", "}\n");
+        indent += line;
+      });
+
+      return indent;
+    }
+
+    // When the "Prettify JavaScript" button is clicked, prettify the code in the input textarea
+    inputConvertButton.addEventListener('click', () => {
+      try {
+        const code = input.value;
+        const indentSize = 2;
+        const prettifiedCode = prettify(code, indentSize);
+        output.value = prettifiedCode;
+      } catch (error) {
+        console.error(error);
+        alert('There was an error with your input.');
+      }
+    });
+  </script>
+</div>
