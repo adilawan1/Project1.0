@@ -1,0 +1,31 @@
+
+<div class='custom-widget'>
+	<p>
+    <label>
+		Enter a domain name:
+	<br>
+	<textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+	</label>
+</p>
+
+<p>
+    <input id="input-convert" type="submit" onclick="encodePunycode()" value="Encode">
+  </p>
+
+  <p>
+    <label>Output:<br>
+    <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+
+    </textarea>
+    </label>
+  </p>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/punycode/2.1.1/punycode.min.js"></script>
+    <script>
+      function encodePunycode() {
+        const input = document.getElementById("input").value;
+        const output = document.getElementById("output");
+        const punycodeString = punycode.toASCII(input);
+        output.innerText = punycodeString;
+      }
+    </script>
+</div>
