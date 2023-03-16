@@ -1,0 +1,72 @@
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter CSV
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <label>
+      Enter Column
+      <br />
+      <textarea cols="40" rows="10" id="col" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="APPCSV()"
+      value="CSV result"
+    />
+  </p>
+
+  <p>
+    <label
+      >CSV Output<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
+  <script>
+    // Helper function to convert CSV to Rows
+    function APPCSV() {
+      const csvStr = document.getElementById("input").value;
+      const csv2 = document.getElementById("col").value;
+      const regex = /("[^",]+),([^",]+")/g; // Matches commas between inverted commas
+      const updatedCsv = csvStr.replace(regex, "$1__$2"); // Replaces commas with __
+      const updatedCsv2 = csv2.replace(regex, "$1__$2");
+      const txtString = `${Csvcolapp(updatedCsv, updatedCsv2)}`;
+      function Csvcolapp(obj, csv2) {
+        let arr = obj.split("\n");
+        let col = arr[0].split(",");
+        let row = arr.length;
+
+        let anscsv = csv2.split("\n");
+        let cols2 = anscsv[0].split(",");
+        let rows2 = anscsv.length;
+        let text = "";
+        let r1 = anscsv[0].split(",");
+        if (cols2.length === 1 && rows2 === arr.length) {
+          for (let j = 0; j < arr.length; j++) {
+            r1 = arr[j].split(",");
+            r1.unshift(anscsv[j]);
+            for (let i = 0; i < col.length + 1; i++) {
+              if (i === 0) text += anscsv[j] + ",";
+              else if (i === col.length) text += r1[i] + "";
+              else text += r1[i] + ",";
+            }
+            text += "\n";
+          }
+        } else {
+          alert("Enter Correct Number of rows & columns");
+        }
+        return text;
+      }
+      document.getElementById("output").innerHTML = txtString;
+    }
+  </script>
+</div>
