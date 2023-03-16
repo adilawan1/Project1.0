@@ -1,0 +1,64 @@
+<div class="custom-widget">
+  <h1>HTML Prettifier</h1>
+  <form>
+    <label for="input">Enter HTML:</label>
+    <br>
+    <textarea id="input" class="inputfull"></textarea>
+    <br>
+    <input id="input-convert" type="submit" onclick="prettifyHTML()" value="Prettify HTML">
+    <br>
+    <label for="output">Prettified HTML:</label>
+    <br>
+    <textarea cols="40" rows="10" id="output" class="inputfull" readonly></textarea>
+  </form>
+
+  <script>
+    function prettifyHTML() {
+      const input = document.getElementById('input');
+      const output = document.getElementById('output');
+
+      try {
+        const ht = input.value;
+        const tabSize = 2;
+        let htmlString = '';
+        const tabChar = ' ';
+        let indentLevel = 0;
+        let buffer = '';
+
+        // Split the input HTML string into individual tags
+        const tags = ht.split(/(<\/?\w+(?:\s+\w+(?:\s*=\s*(?:"[^"]*"|'[^']*'))*)*\s*\/?>)/);
+
+        for (let i = 0; i < tags.length; i++) {
+          const tag = tags[i];
+
+          if (tag.startsWith('</')) {
+            // Decrease the indent level for closing tags
+            indentLevel--;
+          }
+
+          // Add the current tag to the output with appropriate indentation
+          buffer += `${tabChar.repeat(tabSize * indentLevel)}${tag}`;
+
+          if (tag.startsWith('<') && !tag.endsWith('/>')) {
+            // Increase the indent level for opening tags
+            indentLevel++;
+            buffer += '\n';
+          }
+
+          // If the buffer is too big, append it to the output and clear the buffer
+          if (buffer.length > 10000) {
+            htmlString += buffer;
+            buffer = '';
+          }
+        }
+
+        // Append the remaining buffer to the output
+        htmlString += buffer;
+        output.value = htmlString;
+      } catch (error) {
+        console.error(error);
+        alert('There was an error with your input.');
+      }
+    }
+  </script>
+</div>

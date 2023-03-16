@@ -1,0 +1,46 @@
+<div class='custom-widget'>
+  <h1>JSON Unescape</h1>
+  
+  <h2>Input</h2>
+  <textarea cols="40" rows="10" id="input" class='inputfull' placeholder="Please enter JSON"></textarea>
+  <input id="input-convert" type="submit" onclick="jsonUnescape()" value="Unescape JSON">
+  <br><br>
+  
+  <h2>Output</h2>
+  <textarea cols="40" rows="10" id="output" class="inputfull" readonly></textarea>
+  
+  <script>
+    let jsonString;
+  
+    const input = document.getElementById('input');
+    const inputConvertButton = document.getElementById('input-convert');
+    inputConvertButton.addEventListener('click', () => {
+      const escapedJson = input.value;
+      jsonString = jsonUnescape(escapedJson);
+      const output = document.getElementById('output');
+      output.value = jsonString;
+    });
+  
+    function jsonUnescape(str) {
+      return str.replace(/\\(?:["\\/bfnrt]|u[0-9a-fA-F]{4})/g, function(match) {
+        switch(match) {
+          case '\\"': return '"';
+          case '\\\\': return '\\';
+          case '\\/': return '/';
+          case '\\b': return '\b';
+          case '\\f': return '\f';
+          case '\\n': return '\n';
+          case '\\r': return '\r';
+          case '\\t': return '\t';
+          default:
+            // For escaped Unicode characters, decode them to their actual character code.
+            if (match.slice(0,2) === '\\u') {
+              return String.fromCharCode(parseInt(match.slice(2), 16));
+            }
+            // If it's not a recognized escape sequence, just return the original character.
+            return match;
+        }
+      });
+    }
+  </script>
+</div>

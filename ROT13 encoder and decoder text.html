@@ -1,0 +1,47 @@
+
+<div class='custom-widget'>
+	<h2>ROT13 Encode/Decode</h2>
+  <p>
+	<label>
+    Input:
+    <br>
+    <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+  </label>
+  </p>
+  <p>
+    <input id="input-convert" type="submit" onclick="encode()" value="Encode">
+  </p>
+
+  <p>
+    <input id="input-convert" type="submit" onclick="decode()" value="Decode">
+  </p>
+
+
+  <p>
+    <label>Output<br>
+    <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+
+    </textarea>
+    </label>
+  </p>
+
+	<script>
+		function encode() {
+			const input = document.getElementById("input").value;
+			const output = rot13(input);
+			document.getElementById("output").value = output;
+		}
+
+		function decode() {
+			const input = document.getElementById("input").value;
+			const output = rot13(input);
+			document.getElementById("output").value = output;
+		}
+
+		function rot13(str) {
+			return str.replace(/[a-zA-Z]/g, function(c) {
+				return String.fromCharCode((c <= "Z" ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c - 26);
+			});
+		}
+	</script>
+</div>

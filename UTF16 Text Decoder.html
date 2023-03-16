@@ -1,0 +1,42 @@
+<div class='custom-widget'>
+    <h2>UTF-16 Decoding</h2>
+    <p>
+    <label>
+        Enter text to decode:
+    <br>
+    <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+    </label>
+    </p>
+  <p>
+    <input id="input-convert" type="submit" onclick="utf16Decode()" value="UTF16 Decode">
+  </p>
+  <p>
+  </label>
+  <label>UTF-16 Output:<br>
+  <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+  </textarea>
+  </label>
+  </p>
+  <script>
+  
+  
+    function utf16Decode() {
+        const input = document.getElementById("input").value.trim();
+        if (!input) {
+            document.getElementById("output").textContent = "Please enter some text to decode.";
+            return;
+        }
+        let output = "";
+        try {
+            const regex = /\\u([\d\w]{4})/gi;
+            output = input.replace(regex, (match, group) => {
+                return String.fromCharCode(parseInt(group, 16));
+            });
+            document.getElementById("output").textContent = output;
+        } catch (error) {
+            document.getElementById("output").textContent = "Error: invalid input string.";
+        }
+    }
+  
+  </script>
+  </div>

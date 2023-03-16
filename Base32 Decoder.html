@@ -1,0 +1,59 @@
+
+<div class='custom-widget'>
+    <h2>Base32 Decoder</h2>
+    <p>
+      <label>
+        Enter Base32 Encoded Text:
+      <br>
+        <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+      </label>
+  
+  
+      <p>
+        <input id="input-convert" type="submit" onclick="decodeBase32()" value="Decode Base32">
+      </p>
+  
+      <p>
+        <label>Decoded<br>
+        <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+    
+        </textarea>
+        </label>
+      </p>
+  
+      <script>
+        function decodeBase32() {
+          const input = document.getElementById("input").value;
+          const output = document.getElementById("output");
+  
+          // Remove whitespace and padding from input
+          const encoded = input.replace(/ /g, "").replace(/=+$/, "");
+  
+          // Define the base32 alphabet
+          const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+  
+          let bits = "";
+          let decoded = "";
+  
+          // Convert each character in the input to a 5-bit binary string
+          for (let i = 0; i < encoded.length; i++) {
+            const index = alphabet.indexOf(encoded[i]);
+            if (index === -1) {
+              output.value = "Invalid input!";
+              return;
+            }
+            bits += index.toString(2).padStart(5, "0");
+          }
+  
+          // Convert the binary string to ASCII characters
+          for (let i = 0; i < bits.length; i += 8) {
+            const byte = bits.slice(i, i + 8);
+            decoded += String.fromCharCode(parseInt(byte, 2));
+          }
+  
+          output.value = decoded;
+        }
+      </script>
+    </div>
+  
+  

@@ -1,0 +1,44 @@
+<div class='custom-widget'>
+	<h2>UTF-8 Decoding</h2>
+	<p>
+	  <label>
+		Enter text to decode:
+		<br>
+		<textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+	  </label>
+	</p>
+	<p>
+	  <input id="decode" type="submit" onclick="utf8Decode()" value="UTF8 Decode">
+	</p>
+	<p>
+	  <label>Output:<br>
+	  <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+  
+	  </textarea>
+	  </label>
+	</p>
+  
+	<script>
+  
+	  function utf8Decode() {
+		const input = document.getElementById("input").value.trim();
+		if (!input) {
+		  document.getElementById("output").textContent = "Please enter some text to decode.";
+		  return;
+		}
+		let output = "";
+		try {
+		  const matches = input.match(/\\x([0-9a-fA-F]{2})/g);
+		  if (!matches) {
+			throw new Error("Invalid input string.");
+		  }
+		  const bytes = matches.map(match => parseInt(match.slice(2), 16));
+		  output = decodeURIComponent(escape(String.fromCharCode(...bytes)));
+		  document.getElementById("output").textContent = output;
+		} catch (error) {
+		  document.getElementById("output").textContent = "Error: " + error.message;
+		}
+	  }
+	</script>
+  </div>
+  

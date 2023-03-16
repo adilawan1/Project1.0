@@ -1,0 +1,39 @@
+
+<div class='custom-widget'>
+	<h2>Random Case Converter</h2>
+  <p>
+	<label>
+    Enter text:
+  <br>
+  <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+  </label>
+</p>
+  <p>
+    <input id="input-convert" type="submit" onclick="convertText()" value="Convert to Random Case">
+  </p>
+
+  <p>
+    <label>Output:<br>
+    <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+
+    </textarea>
+    </label>
+  </p>
+	<script>
+		function convertText() {
+			let input = document.getElementById("input").value;
+			let output = "";
+
+			for (let i = 0; i < input.length; i++) {
+				let random = Math.random();
+				if (random < 0.5) {
+					output += input.charAt(i).toUpperCase();
+				} else {
+					output += input.charAt(i).toLowerCase();
+				}
+			}
+
+			document.getElementById("output").value = output;
+		}
+	</script>
+</div>
