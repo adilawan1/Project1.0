@@ -1,0 +1,65 @@
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter CSV
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <label>
+      Enter delimeter
+      <br />
+      <textarea id="del"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="APPCSV()"
+      value="CSV result"
+    />
+  </p>
+
+  <p>
+    <label
+      >CSV Output<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
+  <script>
+    // Helper function to convert CSV to Rows
+    function APPCSV() {
+      const csvStr = document.getElementById("input").value;
+      const del = document.getElementById("del").value;
+      const regex = /("[^",]+),([^",]+")/g; // Matches commas between inverted commas
+      const updatedCsv = csvStr.replace(regex, "$1__$2"); // Replaces commas with __
+      const txtString = `${Csvcolapp(updatedCsv)}`;
+      function Csvcolapp(obj) {
+        let arr = obj.split("\n");
+        let col = arr[0].split(",");
+        let row = arr.length;
+        let text = "";
+        let r1 = arr[0].split(",");
+        if (true) {
+          for (let j = 0; j < arr.length; j++) {
+            r1 = arr[j].split(",");
+            for (let i = 0; i < col.length; i++) {
+              if (i === col.length - 1) text += r1[i] + "";
+              else text += r1[i] + del;
+            }
+            text += "\n";
+          }
+        } else {
+          alert("Enter Correct Number of rows & columns");
+        }
+        return text;
+      }
+      document.getElementById("output").innerHTML = txtString;
+    }
+  </script>
+</div>
