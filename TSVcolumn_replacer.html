@@ -1,0 +1,84 @@
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter TSV
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <label>
+      Enter Column
+      <br />
+      <textarea cols="40" rows="10" id="col" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <label>
+      Enter Column Number
+      <br />
+      <textarea cols="40" rows="10" id="colnum" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="APPTSV()"
+      value="TSV result"
+    />
+  </p>
+
+  <p>
+    <label
+      >TSV Output<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
+  <script>
+    // Helper function to convert CSV to Rows
+    function APPTSV() {
+      const tsvStr = document.getElementById("input").value;
+      const tsv2 = document.getElementById("col").value;
+      const colnum = document.getElementById("colnum").value - 1;
+      const txtString = `${Csvcolapp(tsvStr, tsv2)}`;
+      function Csvcolapp(obj, tsv2) {
+        let arr = obj.split("\n");
+        let col = arr[0].split("\t");
+        let row = arr.length;
+
+        let anstsv = tsv2.split("\n");
+        let cols2 = anstsv[0].split("\t");
+        let rows2 = anstsv.length;
+        let text = "";
+        let r1 = [];
+        if (
+          cols2.length === 1 &&
+          rows2 === arr.length &&
+          colnum >= 0 &&
+          colnum <= col.length
+        ) {
+          for (let j = 0; j < arr.length; j++) {
+            r1 = arr[j].split("\t");
+            if (colnum === 0) r1.splice(colnum, 1, anstsv[j]);
+            else r1.splice(colnum, colnum, anstsv[j]);
+            for (let i = 0; i < col.length; i++) {
+              if (i === 0) text += r1[i] + "\t";
+              else if (i === col.length) text += r1[i] + "";
+              else text += r1[i] + "\t";
+            }
+            text += "\n";
+          }
+        } else {
+          alert("Enter Correct Number of rows & columns");
+        }
+        return text;
+      }
+      document.getElementById("output").innerHTML = txtString;
+    }
+  </script>
+</div>
