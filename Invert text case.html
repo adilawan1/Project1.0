@@ -1,0 +1,49 @@
+<div class='custom-widget'>
+	<h2>Case Inverter</h2>
+<p>
+	<label>
+    Enter your text:
+  <br>
+  <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+  </label>
+</p>
+
+<p>
+  <input id="input-invert" type="submit" onclick="invertText()" value="Invert Text">
+</p>
+
+
+<p>
+  <label>Output:<br>
+  <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+
+  </textarea>
+  </label>
+</p>
+ 
+	<script>
+		function invertText() {
+			// Get the user input
+			var input = document.getElementById("input").value;
+
+			// Loop through each character in the input text
+			var output = "";
+			for (var i = 0; i < input.length; i++) {
+				var char = input.charAt(i);
+				if (char === char.toUpperCase()) {
+					// If the character is uppercase, convert to lowercase
+					output += char.toLowerCase();
+				} else if (char === char.toLowerCase()) {
+					// If the character is lowercase, convert to uppercase
+					output += char.toUpperCase();
+				} else {
+					// If the character is not a letter, add it to the output as is
+					output += char;
+				}
+			}
+
+			// Set the inverted text in the output textarea
+			document.getElementById("output").value = output;
+		}
+	</script>
+</div>
