@@ -1,0 +1,67 @@
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter String Delimited Column
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+  <p>
+    <label>
+      Enter Delimeter
+      <br />
+      <textarea cols="10" rows="1" id="del" class="inputfull"></textarea>
+    </label>
+  </p>
+  <p>
+    <label>
+      Enter Column Number
+      <br />
+      <textarea cols="10" rows="1" id="num" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="XTSV()"
+      value="Extract Column"
+    />
+  </p>
+
+  <p>
+    <label
+      >Column<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
+  <script>
+    function XTSV() {
+      const tsvStr = document.getElementById("input").value;
+      const num = document.getElementById("num").value;
+      const del = document.getElementById("del").value;
+      const txtString = `${xtsv(tsvStr)}`;
+      function xtsv(obj) {
+        let arr = obj.split("\n");
+        let col = arr[0].split(del);
+        arr.shift();
+        let row = arr.length;
+        let text = "";
+        if (num - 1 >= 0 && num - 1 < col.length) {
+          text += col[num - 1] + "\n";
+          for (let i = 0; i < row; i++) {
+            text += arr[i].split(del)[num - 1] + "\n";
+          }
+          text += "\n";
+          return text;
+        } else {
+          alert("Enter Correct Column Number");
+          location.reload();
+        }
+      }
+      document.getElementById("output").innerHTML = txtString;
+    }
+  </script>
+</div>
