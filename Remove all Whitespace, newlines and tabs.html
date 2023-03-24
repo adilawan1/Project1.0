@@ -1,0 +1,27 @@
+<div class='custom-widget'>
+    <h2>Remove Accents, Whitespaces, Tabs, and Newlines</h2>
+    <p>
+        <label>
+            Input text:
+            <br>
+            <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+        </label>
+    </p>
+    <br>
+    <p>
+        <input id="input-convert" type="submit" onclick="removeAllSpaces()" value="Remove">
+    </p>
+    <br>
+    <p>
+        <label>Output:<br>
+            <textarea cols="40" rows="10" id="output" class="inputfull" readonly=""></textarea>
+        </label>
+    </p>
+    <script>
+        function removeAllSpaces() {
+          var inputText = document.getElementById("input").value;
+          var outputText = inputText.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[\s\t\n]+/g,'').trim();
+          document.getElementById("output").value = outputText;
+        }
+      </script>
+</div>      
