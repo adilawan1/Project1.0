@@ -1,0 +1,54 @@
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter Text
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="StringTrimmerR()"
+      value="Right Trim"
+    />
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="StringTrimmerL()"
+      value="Left Trim"
+    />
+  </p>
+
+  <p>
+    <label
+      >Trimmed Output<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
+  <script>
+    function StringTrimmerR() {
+      const txtStr = document.getElementById("input").value;
+      let text = "";
+      txtStr.split("\n").forEach((element) => {
+        text += element.trimEnd() + "\n";
+      });
+      document.getElementById("output").innerHTML = text;
+    }
+
+    function StringTrimmerL() {
+      const txtStr = document.getElementById("input").value;
+      let text = "";
+      txtStr.split("\n").forEach((element) => {
+        text += element.trimStart() + "\n";
+      });
+      document.getElementById("output").innerHTML = text;
+    }
+  </script>
+</div>

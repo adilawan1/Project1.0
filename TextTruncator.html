@@ -1,0 +1,69 @@
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter Text
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <label>
+      Number of truncated characters
+      <br />
+      <textarea
+        cols="40"
+        rows="10"
+        id="truncLength"
+        class="inputfull"
+      ></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="StringTruncatorR()"
+      value="Right Truncate"
+    />
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="StringTruncatorL()"
+      value="Left Truncate"
+    />
+  </p>
+
+  <p>
+    <label
+      >TSV Output<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
+  <script>
+    function StringTruncatorR() {
+      const txtStr = document.getElementById("input").value;
+      const length = document.getElementById("truncLength").value;
+      let text = txtStr.substring(0, txtStr.length - length);
+      // txtStr.split("\n").forEach((element) => {
+      //   text += element.trimEnd() + "\n";
+      // });
+      document.getElementById("output").innerHTML = text;
+    }
+
+    function StringTruncatorL() {
+      const txtStr = document.getElementById("input").value;
+      const length = document.getElementById("truncLength").value;
+      let text = txtStr.substring(length, txtStr.length);
+      // txtStr.split("\n").forEach((element) => {
+      //   text += element.trimStart() + "\n";
+      // });
+      document.getElementById("output").innerHTML = text;
+    }
+  </script>
+</div>
