@@ -1,0 +1,92 @@
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter String Delimited Column
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+  <p>
+    <label>
+      Enter Delimeter
+      <br />
+      <textarea cols="10" rows="1" id="del" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <label>
+      Enter Column
+      <br />
+      <textarea cols="40" rows="10" id="col" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <label>
+      Enter Column Number
+      <br />
+      <textarea cols="10" rows="1" id="num" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="XTSV()"
+      value="Replacer Column"
+    />
+  </p>
+
+  <p>
+    <label
+      >Column<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
+  <script>
+    // Helper function to convert CSV to Rows
+    function XTSV() {
+      const tsvStr = document.getElementById("input").value;
+      const tsv2 = document.getElementById("col").value;
+      const del = document.getElementById("del").value;
+      const colnum = document.getElementById("num").value - 1;
+      const txtString = `${Tsvcoldel(tsvStr, tsv2)}`;
+      function Tsvcoldel(obj, tsv2) {
+        let arr = obj.split("\n");
+        let col = arr[0].split(del);
+        let row = arr.length;
+        let anstsv = tsv2.split("\n");
+        let cols2 = anstsv[0].split(del);
+        let rows2 = anstsv.length;
+        let text = "";
+        let r1 = [];
+        if (
+          cols2.length === 1 &&
+          rows2 === arr.length &&
+          colnum >= 0 &&
+          colnum <= col.length
+        ) {
+          for (let j = 0; j < arr.length; j++) {
+            r1 = arr[j].split(del);
+            if (colnum === 0) r1.splice(colnum, 1, anstsv[j]);
+            else r1.splice(colnum, colnum, anstsv[j]);
+            for (let i = 0; i < col.length; i++) {
+              if (i === 0) text += r1[i] + del;
+              else if (i === col.length - 1) text += r1[i] + "";
+              else text += r1[i] + del;
+            }
+            text += "\n";
+          }
+          return text;
+        } else {
+          alert("Enter Correct Column Number");
+          location.reload();
+        }
+      }
+      document.getElementById("output").innerHTML = txtString;
+    }
+  </script>
+</div>
