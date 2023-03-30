@@ -1,0 +1,30 @@
+
+<div class='custom-widget'>
+    <h2>Remove Accents</h2>
+    <p>
+        <label>
+            Input text:
+            <br>
+            <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+        </label>
+    </p>
+    <br>
+    <p>
+        <input id="input-convert" type="submit" onclick="removeAccents()" value="Remove">
+    </p>
+    <br>
+
+    <p>
+        <label>Output:<br>
+            <textarea cols="40" rows="10" id="output" class="inputfull" readonly=""></textarea>
+        </label>
+    </p>
+
+    <script>
+      function removeAccents() {
+        var inputText = document.getElementById("input").value;
+        var outputText = inputText.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        document.getElementById("output").value = outputText;
+      }
+    </script>
+</div>

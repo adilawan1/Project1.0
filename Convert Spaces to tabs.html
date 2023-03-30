@@ -1,0 +1,43 @@
+<div class='custom-widget'>
+	<h2>Space to Tab Converter</h2>
+	<p>
+		<label>
+			Enter your text:
+			<br>
+			<textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+		</label>
+	</p>
+
+	<p>
+		<input id="input-convert" type="submit" onclick="convertText()" value="Convert Text">
+	</p>
+
+	<p>
+		<label>Output:<br>
+			<textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+
+			</textarea>
+		</label>
+	</p>
+
+	<script>
+		function convertText() {
+			// Get the user input
+			var input = document.getElementById("input").value;
+
+			// Split the input into lines
+			var lines = input.split("\n");
+
+			// Loop over each line and replace spaces with tabs
+			for (var i = 0; i < lines.length; i++) {
+				lines[i] = lines[i].replace(/ +/g, "\t");
+			}
+
+			// Join the lines back together
+			var output = lines.join("\n");
+
+			// Set the converted text in the output textarea
+			document.getElementById("output").value = output;
+		}
+	</script>
+</div>

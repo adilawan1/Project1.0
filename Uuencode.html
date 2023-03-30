@@ -1,0 +1,64 @@
+
+<div class='custom-widget'>
+	<h2>UUencode</h2>
+
+	<p>
+		<label> 
+			Enter the text you want to encode:
+		<br>
+		<textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+		</label>
+	</p>
+
+
+	<p>
+		<input id="input-convert" type="submit" onclick="encode()" value="Encode">
+	</p>
+
+	<p>
+		<label>Output:<br>
+		<textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+	
+		</textarea>
+		</label>
+	</p>
+	
+	<script>
+		function encode() {
+			const inputText = document.getElementById('input').value.trim();
+			if (inputText.length === 0) {
+				alert('Please enter some text to encode.');
+				return;
+			}
+			const outputText = uuencode(inputText);
+			document.getElementById('output').value = outputText;
+		}
+
+		function uuencode(input) {
+			const paddingChar = '=';
+			const charCodeOffset = 32;
+			const inputArr = Array.from(input);
+			let output = '';
+
+			for (let i = 0; i < inputArr.length; i += 3) {
+				const charCode1 = inputArr[i].charCodeAt(0);
+				const charCode2 = inputArr[i+1]?.charCodeAt(0) || 0;
+				const charCode3 = inputArr[i+2]?.charCodeAt(0) || 0;
+				const c1 = (charCode1 >> 2) & 63;
+				const c2 = ((charCode1 & 3) << 4) | ((charCode2 >> 4) & 15);
+				const c3 = ((charCode2 & 15) << 2) | ((charCode3 >> 6) & 3);
+				const c4 = charCode3 & 63;
+				output += `${String.fromCharCode(c1 + charCodeOffset)}${String.fromCharCode(c2 + charCodeOffset)}${String.fromCharCode(c3 + charCodeOffset)}${String.fromCharCode(c4 + charCodeOffset)}`;
+			}
+
+			// Add padding characters if necessary
+			if (inputArr.length % 3 === 1) {
+				output = output.slice(0, -2) + paddingChar + paddingChar;
+			} else if (inputArr.length % 3 === 2) {
+				output = output.slice(0, -1) + paddingChar;
+			}
+
+			return output;
+		}
+	</script>
+</div>

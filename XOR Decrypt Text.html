@@ -1,0 +1,46 @@
+
+<div class='custom-widget'>
+    <h2>XOR Decryption</h2>
+    <p>
+    <label>
+      Enter decryption key:
+    <br>
+    <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+  
+    </label>
+    </p>
+  
+    <p>
+    <label>
+      Enter Encrypted text:
+    <br>
+    <textarea cols="40" rows="10" id="input-encrypt" class='inputfull'></textarea>
+  
+    </label>
+    </p>
+  
+    <p>
+      <input id="input-convert" type="submit" onclick="decrypt()" value="Decrypt">
+    </p>
+    <p>
+      <label>Decrypted Text:<br>
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+      </label>
+    </p>
+  
+    
+    <script>
+      function decrypt() {
+        const key = document.getElementById("input").value;
+        const encryptedText = document.getElementById("input-encrypt").value;
+        let decryptedText = "";
+        for (let i = 0; i < encryptedText.length; i++) {
+          const charCode = encryptedText.charCodeAt(i) ^ key.charCodeAt(i % key.length);
+          decryptedText += String.fromCharCode(charCode);
+        }
+        document.getElementById("output").value = decryptedText;
+      }
+    </script>
+  </div>
+  

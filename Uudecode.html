@@ -1,0 +1,71 @@
+<div class='custom-widget'>
+	<h2>UUdecode</h2>
+	<p>
+		<label> 
+			Enter the text you want to decode:
+		<br>
+		<textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+		</label>
+	</p>
+	
+	
+	<p>
+		<input id="input-convert" type="submit" onclick="decode()" value="Decode">
+	</p>
+	
+	<p>
+		<label>Output:<br>
+		<textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+	
+		</textarea>
+		</label>
+	</p>
+	
+	<script>
+		function decode() {
+			const inputText = document.getElementById('input').value.trim();
+			if (inputText.length === 0) {
+				alert('Please enter some text to decode.');
+				return;
+			}
+			const outputText = uudecode(inputText);
+			document.getElementById('output').value = outputText;
+		}
+	
+		function uudecode(input) {
+			const charCodeOffset = 32;
+			const paddingChar = String.fromCharCode(charCodeOffset);
+			const inputArr = Array.from(input);
+			
+			// Pad input with appropriate number of padding characters
+			const numPaddingChars = 4 - (inputArr.length % 4);
+			for (let i = 0; i < numPaddingChars; i++) {
+				inputArr.push(paddingChar);
+			}
+			
+			let output = '';
+	
+			for (let i = 0; i < inputArr.length; i += 4) {
+				const charCode1 = inputArr[i].charCodeAt(0) - charCodeOffset;
+				const charCode2 = inputArr[i+1].charCodeAt(0) - charCodeOffset;
+				const charCode3 = inputArr[i+2].charCodeAt(0) - charCodeOffset;
+				const charCode4 = inputArr[i+3].charCodeAt(0) - charCodeOffset;
+	
+				const c1 = (charCode1 << 2) | (charCode2 >> 4);
+				const c2 = ((charCode2 & 15) << 4) | (charCode3 >> 2);
+				const c3 = ((charCode3 & 3) << 6) | charCode4;
+	
+				output += String.fromCharCode(c1);
+				if (inputArr[i+2] !== paddingChar) {
+					output += String.fromCharCode(c2);
+				}
+				if (inputArr[i+3] !== paddingChar) {
+					output += String.fromCharCode(c3);
+				}
+			}
+	
+			return output;
+		}
+	</script>
+	
+</div>
