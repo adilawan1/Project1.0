@@ -1,0 +1,40 @@
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter HTML
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="HTMLtoTxt()"
+      value="To Text"
+    />
+  </p>
+
+  <p>
+    <label
+      >Removed tags Output<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
+
+  <script>
+    function HTMLtoTxt() {
+      const html = document.getElementById("input").value;
+      const txtString = `${htmltotxt(html)}`;
+      function htmltotxt(obj) {
+        const tmp = document.createElement("div");
+        tmp.innerHTML = obj;
+        let text = tmp.textContent || tmp.innerText || "";
+        return text;
+      }
+      document.getElementById("output").innerHTML = txtString;
+    }
+  </script>
+</div>
