@@ -1,0 +1,43 @@
+<div class='custom-widget'>
+    <h2>Replace Text</h2>
+    <p>
+        <label>
+            Input String:
+            <br>
+            <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+        </label>
+    </p>
+    <br>
+    <p>
+        <label>
+            Text to Replace:
+            <br>
+            <input type="text" id="input-find" class='inputfull'>
+        </label>
+    </p>
+    <p>
+        <label>
+            Replacement Text:
+            <br>
+            <input type="text" id="input-replace" class='inputfull'>
+        </label>
+    </p>
+    <p>
+        <input id="input-convert" type="submit" onclick="replaceText()" value="Replace">
+    </p>
+    <p>
+        <label>Output:<br>
+        <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+        </textarea>
+    </label>
+</p>
+<script>
+    function replaceText() {
+      const inputString = document.getElementById('input').value;
+      const findText = document.getElementById('input-find').value;
+      const replaceText = document.getElementById('input-replace').value;
+      const outputString = inputString.replaceAll(findText, replaceText);
+      document.getElementById('output').value = outputString;
+    }
+  </script>
+</div>

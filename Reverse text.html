@@ -1,0 +1,26 @@
+<div class='custom-widget'>
+    <h2>Reverse Text</h2>
+    <p>
+        <label>
+            Input String:
+            <br>
+            <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+        </label>
+    </p>
+    <p>
+        <input id="input-convert" type="submit" onclick="reverseText()" value="Reverse">
+    </p>
+    <p>
+        <label>Output:<br>
+        <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+        </textarea>
+    </label>
+</p>
+<script>
+      function reverseText() {
+        const input = document.getElementById("input").value;
+        const output = document.getElementById("output");
+        output.innerText = input.split("").reverse().join("");
+      }
+</script>
+</div>
