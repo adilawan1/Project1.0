@@ -1,0 +1,44 @@
+<div class='custom-widget'>
+    <h2>Rotate Text</h2>
+    <p>
+    <label>
+        Enter some text:
+        <br>
+        <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+    </label>
+    </p>
+    <p>
+        <label>
+            Enter rotation value:
+            <br>
+            <textarea cols="40" rows="10" id="input-rotate" class='inputfull' type = 'number'></textarea>
+        </label>
+    </p>
+    <p>
+        <input id="input-convert" type="submit" onclick="rotateText()" value="Rotate">
+    </p>
+    <p>
+        <label>Output:<br>
+        <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+    
+        </textarea>
+        </label>
+      </p>
+    
+    <script>
+      function rotateText() {
+        const input = document.getElementById("input").value;
+        const rotation = parseInt(document.getElementById("input-rotate").value);
+        const output = document.getElementById("output");
+        const rotatedText = rotateString(input, rotation);
+        output.innerText = rotatedText;
+      }
+
+      function rotateString(str, amount) {
+        if (amount < 0) {
+          amount += str.length;
+        }
+        return str.slice(amount) + str.slice(0, amount);
+      }
+    </script>
+</div>
