@@ -1,0 +1,42 @@
+
+<div class='custom-widget'>
+    <style>
+        #input {
+          width: 300px;
+          height: 30px;
+          font-size: 16px;
+          padding: 5px;
+          margin-bottom: 10px;
+        }
+      </style>
+      <h2>Center Align Text</h2>
+      <p>
+        <label>
+          Enter text to align it:
+          <br>
+          <textarea cols="40" rows="10" id="input" class='inputfull' placeholder="Enter text here"></textarea>
+        </label>
+      </p>
+      
+      <p>
+        <input id="input-convert" type="submit" onclick="centerAlign()" value="Center Align">
+      </p>
+  
+      <p>
+        <label>Output:<br>
+        <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+    
+        </textarea>
+        </label>
+      </p> 
+      
+      <script>
+        function centerAlign() {
+          var input = document.getElementById("input").value;
+          var output = document.getElementById("output");
+          output.style.textAlign = "center";
+          output.innerHTML = input;
+        }
+      </script>
+    </div>
+  

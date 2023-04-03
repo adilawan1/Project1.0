@@ -1,0 +1,32 @@
+
+<div class='custom-widget'>
+    <h2>Circular Left Rotation</h2>
+    <p>
+      <label>
+        Enter text:
+      <br>
+      <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+      </label>
+    </p>
+      
+    <p>
+      <input id="input-convert" type="submit" onclick="rotate()" value="Rotate">
+    </p>
+  
+    <p>
+      <label>Output:<br>
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+  
+      </textarea>
+      </label>
+    </p>
+  
+      <script>
+        function rotate() {
+          const inputText = document.getElementById("input").value;
+          const rotatedText = inputText.substring(1) + inputText.charAt(0);
+          document.getElementById("output").innerText = rotatedText;
+        }
+      </script>
+  </div>
+  
