@@ -1,0 +1,39 @@
+<div class='custom-widget'>
+    <p>
+      <label>
+        Enter a number:
+        <br>
+        <textarea cols="40" rows="10" id="input" class='inputfull' type = 'number'></textarea>
+      </label>
+    </p>
+  
+    <p>
+      <input id="input-convert" type="submit" onclick="addSeparators()" value="Add separators">
+    </p>
+  
+    <p>
+      <label>Output:<br>
+        <textarea cols="40" rows="10" id="output" class="inputfull" readonly=""></textarea>
+      </label>
+    </p>
+  
+    <script>
+      function addSeparators() {
+        // Get the input value from the user
+        let input = document.getElementById("input").value;
+  
+        // Check if the input is a valid number
+        if (!/^\d+$/.test(input)) {
+          alert("Please enter a valid integer number!");
+          return;
+        }
+  
+        // Add thousand separators to the input value
+        let output = input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  
+        // Display the output value
+        document.getElementById("output").innerHTML = output;
+      }
+    </script>
+  </div>
+  

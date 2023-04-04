@@ -1,0 +1,32 @@
+
+<div class='custom-widget'>
+  <h2>Unescape Backslashes</h2>
+    <p>
+        <label>
+            Input String:
+            <br>
+            <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+        </label>
+    </p>
+
+
+    <p>
+        <input id="input-convert" type="submit" onclick="unescapeBackslashes()" value="Convert">
+    </p>
+
+    <p>
+        <label>Output:<br>
+        <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+    
+        </textarea>
+        </label>
+    </p>
+    
+  <script>
+    function unescapeBackslashes() {
+      const inputString = document.getElementById('input').value;
+      const outputString = inputString.replace(/\\\\/g, '\\');
+      document.getElementById('output').value = outputString;
+    }
+  </script>
+</div>

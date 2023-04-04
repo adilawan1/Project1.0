@@ -1,0 +1,74 @@
+<div class='custom-widget'>
+    <p>
+      <label>
+        Enter some text:
+        <br>
+        <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+      </label>
+    </p>
+  
+    <p>
+      <label>
+        Add a backslash after every:
+        <br>
+        <input type="number" id="interval" min="1" max="100" value="1">
+        letters.
+      </label>
+    </p>
+  
+    <p>
+      <label>
+        Add how many backslashes:
+        <br>
+        <input type="number" id="count" min="1" max="10" value="1">
+      </label>
+    </p>
+  
+    <p>
+      <input type="submit" onclick="addBackslashes()" value="Add backslashes">
+    </p>
+  
+    <p>
+      <label>Output:<br>
+        <textarea cols="40" rows="10" id="output" class="inputfull" readonly=""></textarea>
+      </label>
+    </p>
+  
+    <script>
+      function addBackslashes() {
+        // Get the input values from the user
+        let input = document.getElementById("input").value;
+        let interval = parseInt(document.getElementById("interval").value);
+        let count = parseInt(document.getElementById("count").value);
+  
+        // Validate the input values
+        if (!input) {
+          alert("Please enter some text!");
+          return;
+        }
+        if (isNaN(interval) || interval < 1) {
+          alert("Please enter a valid interval (a positive integer)!");
+          return;
+        }
+        if (isNaN(count) || count < 1) {
+          alert("Please enter a valid count (a positive integer)!");
+          return;
+        }
+  
+        // Add the backslashes to the input text
+        let output = "";
+        for (let i = 0; i < input.length; i++) {
+          output += input[i];
+          if ((i + 1) % interval === 0) {
+            for (let j = 0; j < count; j++) {
+              output += "\\";
+            }
+          }
+        }
+  
+        // Display the output value
+        document.getElementById("output").innerHTML = output;
+      }
+    </script>
+  </div>
+  

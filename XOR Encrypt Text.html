@@ -1,0 +1,48 @@
+
+<div class='custom-widget'>
+    <h2>XOR Encryption</h2>
+    <p>
+      <label>
+        Enter plain text:
+      <br>
+      <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+      </label>
+      </p>
+    
+      <p>
+        <label>
+          Enter Encryption key:
+        <br>
+        <textarea cols="40" rows="10" id="input-key" class='inputfull'></textarea>
+      
+        </label>
+        </p>
+      
+        <p>
+          <input id="input-convert" type="submit" onclick="encrypt()" value="Encrypt">
+        </p>
+        <p>
+          <label>Encrypted Text:<br>
+          <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+          </textarea>
+          </label>
+        </p>
+      
+    <script>
+      function encrypt() {
+        const plaintext = document.getElementById("input").value;
+        const key = document.getElementById("input-key").value;
+        let ciphertext = "";
+  
+        for (let i = 0; i < plaintext.length; i++) {
+          const plaintextChar = plaintext.charCodeAt(i);
+          const keyChar = key.charCodeAt(i % key.length);
+          const cipherChar = plaintextChar ^ keyChar;
+          ciphertext += String.fromCharCode(cipherChar);
+        }
+  
+        document.getElementById("output").value = ciphertext;
+      }
+    </script>
+  </div>
+  

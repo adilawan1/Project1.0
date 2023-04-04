@@ -1,0 +1,31 @@
+
+<div class='custom-widget'>
+	<h2>New Line to Space Converter</h2>
+	<p>
+        <label>
+            Input Text:
+            <br>
+            <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+        </label>
+    </p>
+
+  <p>
+    <input id="input-convert" type="submit" onclick="convert()" value="Convert">
+  </p>
+
+  <p>
+    <label>Output:<br>
+    <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+
+    </textarea>
+    </label>
+  </p>
+
+	<script>
+		function convert() {
+			var inputText = document.getElementById("input").value;
+			var outputText = inputText.replace(/\n/g, " ");
+			document.getElementById("output").value = outputText;
+		}
+	</script>
+</div>
