@@ -1,0 +1,78 @@
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter HTML
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="HTMLtoTxt()"
+      value="To Text"
+    />
+  </p>
+
+  <p>
+    <label
+      >Text Output<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
+  <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+  <script>
+    function HTMLtoTxt() {
+      const html = document.getElementById("input").value;
+      const turndownService = new TurndownService();
+      const markdown = turndownService.turndown(html);
+
+      //------------------------------------------------------Using Package Instead to Handle all possible HTML tags-------------------------------------
+      // function htmlToMarkdown(html) {
+      //   // Replace any <br> tags with double spaces
+      //   html = html.replace(/<br>/g, "  ");
+
+      //   // Replace any <b> tags with double asterisks
+      //   html = html.replace(/<b>/g, "**");
+
+      //   // Replace any <i> tags with single asterisks
+      //   html = html.replace(/<i>/g, "*");
+
+      //   // Replace any <a> tags with Markdown links
+      //   html = html.replace(
+      //     /\<a href=[',"](.*?)[",']\>(.*?)\<\/a\>/gs,
+      //     "[$2]($1)"
+      //   );
+
+      //   // Remove any remaining HTML tags
+      //   html = html.replace(/<(?:.|\n)*?>/gm, "");
+      //   // Replace paragraphs
+      //   html = html.replace(/\<p\>(.*?)\<\/p\>/gs, "$1\n\n");
+
+      //   // Replace headings
+      //   html = html.replace(
+      //     /<h(\d)>(.*?)<\/h\d>/gs,
+      //     (match, level, content) => {
+      //       const heading =
+      //         Array(parseInt(level) + 1).join("#") + " " + content;
+      //       return `${heading}\n\n`;
+      //     }
+      //   );
+
+      //   console.log(html);
+      //   // Remove extra newlines at beginning and end of string
+      //   html = html.replace(/^\s+|\s+$/g, "");
+      //   //Bold and Italics
+      //   html = html.replace(/\<b\>(.*?)\<\/b\>|\<i\>(.*?)\<\/i\>/gs, "**$1$2*");
+
+      //   return html;
+      // }
+      // const txtString = `${htmlToMarkdown(html)}`;
+
+      document.getElementById("output").innerHTML = markdown;
+    }
+  </script>
+</div>

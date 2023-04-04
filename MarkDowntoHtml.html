@@ -1,0 +1,35 @@
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter MarkDown
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="HTMLtoTxt()"
+      value="To HTML"
+    />
+  </p>
+
+  <p>
+    <label
+      >HTML Output<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
+  <script src="https://unpkg.com/showdown/dist/showdown.min.js"></script>
+  <script>
+    function HTMLtoTxt() {
+      const text = document.getElementById("input").value;
+      var converter = new showdown.Converter(),
+        html = converter.makeHtml(text);
+      document.getElementById("output").innerHTML = html;
+    }
+  </script>
+</div>
