@@ -1,0 +1,31 @@
+<div class='custom-widget'>
+    <h2>Circular Right Rotation</h2>
+    <p>
+      <label>
+        Enter text:
+      <br>
+      <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+      </label>
+    </p>
+      
+    <p>
+      <input id="input-convert" type="submit" onclick="rotate()" value="Rotate">
+    </p>
+  
+    <p>
+      <label>Output:<br>
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+  
+      </textarea>
+      </label>
+    </p>
+  
+      <script>
+        function rotate() {
+          const inputText = document.getElementById("input").value;
+          const rotatedText = inputText.charAt(inputText.length - 1) + inputText.substring(0, inputText.length - 1);
+          document.getElementById("output").innerText = rotatedText;
+        }
+      </script>
+  </div>
+  

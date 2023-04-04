@@ -1,0 +1,46 @@
+<div class='custom-widget'>
+    <style>
+        #input {
+          width: 300px;
+          height: 30px;
+          font-size: 16px;
+          padding: 5px;
+          margin-bottom: 10px;
+        }
+      </style>
+      <h2>Left Pad Text</h2>
+      <p>
+        <label>
+          Enter text to left pad it:
+          <br>
+          <textarea cols="40" rows="10" id="input" class='inputfull' placeholder="Enter text here"></textarea>
+        </label>
+      </p>
+      <p>
+        <input id="input-convert" type="submit" onclick="leftPad()" value="Left Pad">
+      </p>
+      
+      <p>
+        <label>Output:<br>
+        <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      
+        </textarea>
+        </label>
+      </p> 
+      
+      <script>
+        function leftPad() {
+          var input = document.getElementById("input").value;
+          var output = document.getElementById("output");
+          var maxLength = 50; // maximum number of characters in output text
+          var padding = maxLength - input.length; // calculate how much padding is needed
+          var paddedText = "";
+          for (var i = 0; i < padding; i++) {
+            paddedText += " "; // add spaces for padding
+          }
+          paddedText += input; // add the original input text after padding
+          output.style.textAlign = "left";
+          output.innerHTML = paddedText;
+        }
+      </script>
+  </div>    
