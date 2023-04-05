@@ -1,0 +1,89 @@
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter comma separated IP addresses
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="txt2htmlent()"
+      value="Sort"
+    />
+  </p>
+
+  <p>
+    <label></label>
+      Output<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
+
+  <script>
+    function txt2htmlent() {
+      const Ip = document.getElementById("input").value;
+      const arr =Ip.split(',')
+      let out='';
+      // javascript implementation to sort
+// the array of the IP Address
+ 
+// Custom Comparator to sort the
+// Array in the increasing order
+function customComparator(a, b){
+     
+     // Breaking into the octets   
+     let octetsA = a.split(".");
+     let octetsB = b.split(".");
+      
+     // Condition if the IP Address
+     // is same then return 0
+     if(octetsA == octetsB)
+         return 0
+     else if(octetsA[0] > octetsB[0])
+         return 1
+     else if(octetsA[0] < octetsB[0])
+         return -1
+     else if(octetsA[1] > octetsB[1])
+         return 1
+     else if(octetsA[1] < octetsB[1])
+         return -1
+     else if(octetsA[2] > octetsB[2])
+         return 1
+     else if(octetsA[2] < octetsB[2])
+         return -1
+     else if(octetsA[3] > octetsB[3])
+         return 1
+     else if(octetsA[3] < octetsB[3])
+         return -1
+  
+ }
+  
+ // Function to sort the IP Addresses
+ function sortIPAddress(arr){
+     // Sort the Array using
+     // Custom Comparator
+     arr.sort(customComparator);
+         
+     arr.forEach(function(ele){
+         out+=ele + " ";
+     })
+     return arr;
+ }
+      
+  
+      
+  
+ // Driver Code
+ //arr = ['192.168.0.1', '192.168.1.210', '192.168.0.227']
+      
+ // Function Call
+const arr1 = sortIPAddress(arr)
+ document.getElementById("output").innerHTML = arr1
+    }
+  </script>
+</div>

@@ -1,0 +1,35 @@
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter Unix time
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="UNIX2UTC()"
+      value="To Text"
+    />
+  </p>
+
+  <p>
+    <label
+      >UTC Output<br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
+
+  <script>
+    function UNIX2UTC() {
+      const Unix = document.getElementById("input").value;
+      const mydate = new Date(parseInt(Unix) * 1000);
+      const txtString = mydate.toUTCString();
+      document.getElementById("output").innerHTML = txtString;
+    }
+  </script>
+</div>
