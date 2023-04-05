@@ -1,0 +1,37 @@
+
+<div class='custom-widget'>
+    <h2>Repeat Text</h2>
+    <p>
+        <label>
+            Input String:
+            <br>
+            <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+        </label>
+    </p>
+    <br>
+    <p>
+        <label>
+            Repeat Times:
+            <br>
+            <textarea cols="40" rows="10" id="input-repeat" class='inputfull' type = 'number'></textarea>
+        </label>
+    </p>
+    <p>
+        <input id="input-convert" type="submit" onclick="repeatText()" value="Repeat">
+    </p>
+    <p>
+        <label>Output:<br>
+        <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+    
+        </textarea>
+        </label>
+    </p>
+  <script>
+    function repeatText() {
+      const inputString = document.getElementById('input').value;
+      const repeatTimes = parseInt(document.getElementById('input-repeat').value);
+      const outputString = inputString.repeat(repeatTimes);
+      document.getElementById('output').value = outputString;
+    }
+  </script>
+</div>
