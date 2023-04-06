@@ -1,0 +1,39 @@
+
+<div class='custom-widget'>
+    <h2>Text Length Calculator</h2>
+    <p>
+    <label>
+      Enter text:
+    <br>
+    <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+    </label>
+  </p>
+  
+  <p>
+    <input id="input-convert" type="submit" onclick="calculateTextLength()" value="Calculate">
+  </p>
+  
+  <p>
+    <label>Output:<br>
+    <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+    </textarea>
+    </label>
+  </p>
+  
+  
+    <script>
+      const textInput = document.getElementById("input");
+      const textLengthOutput = document.getElementById("output");
+      const calculateBtn = document.getElementById("input-convert");
+  
+  
+  
+      function calculateTextLength() {
+        const text = textInput.value;
+        const textLength = text.length;
+  
+        textLengthOutput.innerText = textLength;
+      }
+    </script>
+  </div>
+  

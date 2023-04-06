@@ -1,0 +1,43 @@
+
+<div>
+    <h2>Sort Text Based on First Character</h2>
+    <p>
+    <label>
+      Enter text to sort:
+    <br>
+    <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+    </label>
+    </p>
+    
+    <p>
+      <input id="input-convert" type="submit" onclick="sortText()" value="Sort">
+    </p>
+    
+    <p>
+      <label>Output:<br>
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+  
+      </textarea>
+      </label>
+    </p>
+  
+    <script>
+      function sortText() {
+        // Get the input text
+        const inputText = document.getElementById("input").value;
+  
+        // Split the input text into an array of words
+        const wordsArray = inputText.split(" ");
+  
+        // Sort the array of words
+        const sortedArray = wordsArray.sort();
+  
+        // Join the sorted array back into a string
+        const sortedText = sortedArray.join(" ");
+  
+        // Update the sorted text element in the UI
+        document.getElementById("output").textContent = sortedText;
+      }
+    </script>
+  </div>
+  

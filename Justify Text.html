@@ -1,0 +1,87 @@
+
+<div class='custom-widget'>
+    <h2>Text Justifier</h2>
+    <p>
+    <label>
+      Input text:
+    <br>
+    <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+    </label>
+    </p>
+    <p>
+    <label>
+      Justification width:
+    <br>
+    <input type="number" id="justification-width" value="80"><br>
+    </label>
+    </p>
+  
+  
+    <p>
+      <input id="input-convert" type="submit" onclick="justifyText()" value="Justify">
+    </p>
+    
+    <p>
+      <label>Output:<br>
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+  
+      </textarea>
+      </label>
+    </p>
+  
+  
+    <script>
+      function justifyText() {
+        // Get user input
+        const inputText = document.getElementById('input').value;
+        const justificationWidth = parseInt(document.getElementById('justification-width').value);
+  
+        // Split input text into lines
+        const lines = inputText.split('\n');
+  
+        // Justify each line
+        const justifiedLines = lines.map(line => {
+          // Split line into words
+          const words = line.trim().split(' ');
+  
+          // Calculate total width of words
+          let totalWidth = 0;
+          for (let i = 0; i < words.length; i++) {
+            totalWidth += words[i].length;
+          }
+  
+          // Calculate number of spaces needed to justify line
+          let numSpaces = justificationWidth - totalWidth;
+  
+          // Calculate space between words
+          let spaceBetweenWords = 1;
+          let extraSpaces = 0;
+          if (words.length > 1) {
+            spaceBetweenWords = Math.floor(numSpaces / (words.length - 1));
+            extraSpaces = numSpaces % (words.length - 1);
+          }
+  
+          // Build justified line
+          let justifiedLine = '';
+          for (let i = 0; i < words.length; i++) {
+            justifiedLine += words[i];
+  
+            if (i !== words.length - 1) {
+              justifiedLine += ' '.repeat(Math.max(spaceBetweenWords, 0));
+  
+              if (extraSpaces > 0) {
+                justifiedLine += ' ';
+                extraSpaces--;
+              }
+            }
+          }
+  
+          return justifiedLine;
+        });
+  
+        // Display justified text
+        document.getElementById('output').value = justifiedLines.join('\n');
+      }
+    </script>
+  </div>
+  

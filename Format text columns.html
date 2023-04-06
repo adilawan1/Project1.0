@@ -1,0 +1,70 @@
+
+<div class="custom-widget">
+    <h2>Text Columns Formatter</h2>
+    <p>
+    <label>
+      Enter text:
+    <br>
+    <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+    </label>
+    </p>
+    <p>
+    <label>
+      Column width:
+    <br>
+    <input type="number" id="column-width" value="10" class="inputfull">
+    </label>
+    </p>
+  
+  
+    <p>
+      <input id="input-convert" type="submit" onclick="formatTextColumns()" value="Format">
+    </p>
+  
+    <p>
+      <label>Output:<br>
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+  
+      </textarea>
+      </label>
+    </p>
+  
+    <script>
+      const textInput = document.getElementById("input");
+      const columnWidthInput = document.getElementById("column-width");
+      const formattedTextOutput = document.getElementById("output");
+      const formatBtn = document.getElementById("input-convert");
+  
+      function formatTextColumns() {
+        const text = textInput.value;
+        const columnWidth = Number(columnWidthInput.value);
+  
+        // Split the text into an array of words
+        const words = text.split(/\s+/);
+  
+        // Calculate the number of columns based on the column width
+        const numColumns = Math.ceil(words.join("").length / columnWidth);
+  
+        // Build an array of strings, each representing a column
+        const columns = [];
+        for (let i = 0; i < numColumns; i++) {
+          let column = "";
+          for (let j = i; j < words.length; j += numColumns) {
+            const word = words[j];
+            if (column.length + word.length <= columnWidth) {
+              column += word + " ";
+            } else {
+              break;
+            }
+          }
+          columns.push(column.trim());
+        }
+  
+        // Build the formatted text by joining the columns with line breaks
+        const formattedText = columns.join("\n");
+  
+        formattedTextOutput.value = formattedText;
+      }
+    </script>
+  </div>
+  
