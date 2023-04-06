@@ -1,0 +1,49 @@
+<div class="custom-widget">
+  <p>
+    <label>
+      Enter IP address
+      <br />
+      <textarea cols="40" rows="10" id="input" class="inputfull"></textarea>
+    </label>
+  </p>
+
+  <p>
+    <input
+      id="input-convert"
+      type="submit"
+      onclick="txt2htmlent()"
+      value="Convert to Octal"
+    />
+  </p>
+
+  <p>
+    <label>Octal</label>
+      <br />
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+      </textarea>
+    </label>
+  </p>
+
+  <script>
+    function txt2htmlent() {
+      const Ip = document.getElementById("input").value;
+      const IP =Ip.split('.')
+      let text='';
+      IP.forEach((deci,id)=>{
+if(parseInt(deci).toString(8).length<4){
+for(let i =0 ; i <4-parseInt(deci).toString(8).length ; i++){
+text+='0'
+}}
+if(id+1 == IP.length)
+text+=parseInt(deci).toString(8)+''
+else 
+text+=parseInt(deci).toString(8)+'.'
+})
+ // Driver Code
+ //arr = ['192.168.0.1', '192.168.1.210', '192.168.0.227']
+      
+ // Function Call
+ document.getElementById("output").innerHTML = text
+    }
+  </script>
+</div>
