@@ -1,0 +1,38 @@
+
+<div class='custom-widget'>
+    <h2>Add numbering to lines</h2>
+    <p>
+    <label>
+      Enter Text:
+    <br>
+    <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+    </label>
+  </p>
+  
+  <p>
+    <input id="input-convert" type="submit" onclick="addLineNumbers()" value="Add Line Numbers">
+  </p>
+  
+  <p>
+    <label>Output:<br>
+    <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+  
+    </textarea>
+    </label>
+  </p>
+  
+    <script>
+      function addLineNumbers() {
+        let inputText = document.getElementById("input").value;
+        let lines = inputText.split("\n");
+        let outputText = "";
+  
+        for (let i = 0; i < lines.length; i++) {
+          outputText += (i + 1) + ". " + lines[i] + "\n";
+        }
+  
+        document.getElementById('output').textContent = outputText;
+      }
+    </script>
+  </div>
+  

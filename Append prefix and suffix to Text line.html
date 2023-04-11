@@ -1,0 +1,56 @@
+<div class='custom-widget'>
+    <h2>Append Prefix and Suffix to Line</h2>
+    <p>
+      <label>
+        Enter a sentence:
+      <br>
+      <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+      </label>
+      
+    </p>
+    <p>
+      <label>
+        Enter a Prefix:
+      <br>
+      <textarea cols="40" rows="10" id="input-prefix" class='inputfull'></textarea>
+      </label>
+      
+    </p>
+  
+    <p>
+      <label>
+        Enter a Suffix:
+      <br>
+      <textarea cols="40" rows="10" id="input-suffix" class='inputfull'></textarea>
+      </label>
+      
+    </p>
+  
+    <p>
+      <input id="input-convert" type="submit" onclick="addPrefix()" value="Add Suffix">
+    </p>
+  
+    <p>
+      <label>Output:<br>
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+  
+      </textarea>
+      </label>
+    </p>
+  
+      
+      <script>
+        function addPrefix() {
+          const sentenceInput = document.getElementById("input");
+          const suffixInput = document.getElementById("input-suffix");
+          const prefixInput = document.getElementById("input-prefix");
+          const resultElement = document.getElementById("output");
+          const sentence = sentenceInput.value;
+          const prefix = prefixInput.value; // Get the prefix from the input field
+          const suffix = suffixInput.value; // Get the prefix from the input field
+          const lines = sentence.split("\n").map(line => prefix + ' ' + line + ' ' + suffix); // Prefix each line with the prefix
+          resultElement.textContent = lines.join("\n"); // Join the lines with a newline
+        }
+      </script>
+  </div>
+  
