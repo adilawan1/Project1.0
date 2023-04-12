@@ -1,0 +1,42 @@
+<div class='custom-widget'>
+    <h2>Sort Numbers</h2>
+    <p>
+    <label>
+      Enter numbers to sort (separated by commas):
+    <br>
+    <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+    </label>
+    </p>
+    
+    <p>
+      <input id="input-convert" type="submit" onclick="sortNumbers()" value="Sort">
+    </p>
+    
+    <p>
+      <label>Output:<br>
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+  
+      </textarea>
+      </label>
+    </p>
+  
+    <script>
+      function sortNumbers() {
+        // Get the input text
+        const inputText = document.getElementById("input").value;
+  
+        // Split the input text into an array of numbers
+        const numbersArray = inputText.split(",").map(Number);
+  
+        // Sort the array of numbers
+        const sortedArray = numbersArray.sort((a, b) => a - b);
+  
+        // Join the sorted array back into a string
+        const sortedText = sortedArray.join(", ");
+  
+        // Update the sorted text element in the UI
+        document.getElementById("output").textContent = sortedText;
+      }
+    </script>
+  </div>
+  

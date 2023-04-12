@@ -1,0 +1,42 @@
+<div class='custom-widget'>
+    <h2>Sort Lines by Length (Ascending Order)</h2>
+    <p>
+    <label>
+      Enter lines to sort:
+    <br>
+    <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+    </label>
+    </p>
+    
+    <p>
+      <input id="input-convert" type="submit" onclick="sortLines()" value="Sort">
+    </p>
+    
+    <p>
+      <label>Output:<br>
+      <textarea cols="40" rows="10" id="output" class="inputfull" readonly="">
+  
+      </textarea>
+      </label>
+    </p>
+  
+    <script>
+      function sortLines() {
+        // Get the input text
+        const inputText = document.getElementById("input").value;
+  
+        // Split the input text into an array of lines
+        const linesArray = inputText.split("\n");
+  
+        // Sort the array of lines by length
+        const sortedArray = linesArray.sort((a, b) => a.length - b.length);
+  
+        // Join the sorted array back into a string
+        const sortedText = sortedArray.join("\n");
+  
+        // Update the sorted text element in the UI
+        document.getElementById("output").textContent = sortedText;
+      }
+    </script>
+  </div>
+  

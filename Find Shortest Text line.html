@@ -1,0 +1,35 @@
+<div class='custom-widget'>
+    <h2>Find Shortest Text Line</h2>
+    <p>
+    <label>
+      Enter Text:
+    <br>
+    <textarea cols="40" rows="10" id="input" class='inputfull'></textarea>
+    </label>
+  </p>
+  <p>
+    <input id="input-convert" type="submit" onclick="findShortestLine()" value="Find Shortest Line">
+  </p>
+  <p>
+    <label>Shortest Line:<br>
+    <input type="text" id="output" readonly="" size="40">
+    </label>
+  </p>
+    <script>
+      function findShortestLine() {
+        let inputText = document.getElementById("input").value;
+        let lines = inputText.split("\n");
+        let minLength = Number.MAX_VALUE;
+        let shortestLine = "";
+  
+        for (let i = 0; i < lines.length; i++) {
+          if (lines[i].length < minLength) {
+            minLength = lines[i].length;
+            shortestLine = lines[i];
+          }
+        }
+  
+        document.getElementById('output').value = shortestLine;
+      }
+    </script>
+  </div> 
